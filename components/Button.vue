@@ -3,6 +3,7 @@
 
 const props = defineProps({
   ripple: { type: String, default: '' },
+  label: { type: String, default: '' },
   activeDisabled: { type: Boolean, default: false },
   flat: { type: Boolean, default: false },
   border: { type: Boolean, default: false },
@@ -63,7 +64,7 @@ const handleClick = (evt: Event) => {
   }]" 
   v-bind="$attrs" @click="handleClick">
     <div class="button__content">
-      <i v-if="icon" :class="icon" /><slot />
+      <i v-if="icon" :class="icon" />{{ label }}<slot />
     </div>
     <div v-if="$slots.animate" :class="['button__animate', `button__animate--${props.animationType}`]">
       <slot name="animate" />
