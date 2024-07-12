@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
-    '@nuxt/eslint',
     '@vueuse/motion/nuxt'
   ],
 
@@ -66,12 +65,6 @@ export default defineNuxtConfig({
   features: {
     // For UnoCSS
     inlineStyles: false,
-  },
-
-  eslint: {
-    config: {
-      standalone: false,
-    },
   },
 
   compatibilityDate: '2024-07-12',
