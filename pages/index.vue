@@ -3,7 +3,7 @@
     <Globe />
     <AnimatedBeamExemple />
     <div
-      class="relative flex flex-col w-full max-w-[500px] items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-xl">
+      class="relative flex flex-col w-full max-w-[600px] items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-xl">
 
       <span class="text-xl text-left font-bold w-full mb-4">Avatar</span>
       <div class="flex  gap-5">
@@ -19,12 +19,10 @@
         <Avatar icon="i-ic-check" badge>
           <img src="https://vuesax.com/avatars/avatar-3.png" alt="" />
         </Avatar>
-        <Avatar icon="i-ic-check" badgeClass="!bg-primary" writing history history-gradient
-          badgePosition="bottom-right">
+        <Avatar icon="i-ic-check" writing history history-gradient badgePosition="bottom-right">
           <img src="https://vuesax.com/avatars/avatar-3.png" alt="" />
         </Avatar>
-        <Avatar icon="i-ic-check" badgeClass="!bg-primary" writing history history-gradient badgePosition="bottom-right"
-          loading>
+        <Avatar icon="i-ic-check" writing history history-gradient badgePosition="bottom-right" loading>
           <img src="https://vuesax.com/avatars/avatar-3.png" alt="" />
         </Avatar>
       </div>
@@ -36,6 +34,7 @@
           <Input v-model="value" icon="i-bx-user" label-placeholder="Icon" />
           <Input icon="i-bx-lock-open-alt" type="password" icon-after v-model="value" placeholder="Icon after" />
           <Input v-model="value" icon="i-bx-user" label-placeholder="Loading" loading />
+          <div  class="mt-8 flex gap-2 items-center">Simple color picker <Input v-model="color" type="color" color-picker/></div>
         </div>
         <div class="flex flex-col gap-5 w-full  items-start">
           <Input v-model="value" icon="i-bx-user" label-placeholder="Success" state="success"
@@ -267,7 +266,7 @@
 
         <div class="p-2 bg-surface rounded-lg text-primary flex flex-col items-center justify-center" v-tip="'Bonjour'">
           Tooltip with
-          directive <Button icon="i-bx-like" circle border @click="showNotification('top-right', 'success')" /></div>
+          directive <Button icon="i-bx-like" circle @click="showNotification('top-right')" /></div>
       </div>
       <span class="text-xl text-left font-bold w-full my-4">Notifications</span>
       <div class="flex gap-5 w-full items-start">
@@ -275,7 +274,7 @@
           <Select v-model="notifStyle" :options="styles" label="Style" />
           <Select v-model="variant" :options="variants" label="Variant" />
         </div>
-        <div class="flex flex-wrap gap-5 w-full  items-start">
+        <div class="flex flex-wrap gap-8 w-full  items-start">
           <Button danger icon="i-bx-border-radius -rotate-90" @click="showNotification('top-left')" />
           <Button warn icon="i-bx-border-top" @click="showNotification('top-center')" />
           <Button success icon="i-bx-border-radius" @click="showNotification('top-right')" />
@@ -284,22 +283,52 @@
           <Button dark icon="i-bx-border-radius rotate-90" @click="showNotification('bottom-right')" />
         </div>
       </div>
+      <span class="text-xl text-left font-bold w-full my-4">Paginations</span>
+      <div class="flex gap-5 w-full items-start">
+        <Pagination :disabled-items="[3, 19]" :loading-items="[2, 20]" v-model="page" :length="20" />
+      </div>
+      <span class="text-xl text-left font-bold w-full my-4">Table</span>
+      <div class="flex gap-5 w-full items-start">
+        <Table v-model="selectedUsers" multiple-selection :items="users" :columns="columns" has-selection searchable>
+          <template #expand="{ item }">
+            <div class="con-content">
+              <div>
+                <Avatar>
+                  <img :src="`https://vuesax.com/avatars/avatar-3.png`" alt="">
+                </Avatar>
+                <p>
+                  {{ item.name }}
+                </p>
+              </div>
+              <div>
+                <Button flat icon="i-bx-lock-open-alt" />
+                <Button flat icon="i-mynaui-brand-youtube" label="Send Email" />
+              </div>
+            </div>
+          </template>
 
+          <template #name="{ item }">
+            <a>{{ item.name }}</a>
+          </template>
+        </Table>
+      </div>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Column } from '~/types/Table';
+
 const color = ref('')
 const value = ref('')
-const range = ref('')
+const range = ref(20)
 const active = ref(0)
 const option = ref(false)
 const active2 = ref(false)
 const active3 = ref(false)
 const activeTooltip1 = ref(false)
 const activeTooltip2 = ref(false)
+const page = ref(2)
 const select = ref()
 const select2 = ref([])
 const notifStyle = ref('border')
@@ -350,6 +379,108 @@ const variants = [{
 }
 ]
 
+const selectedUsers = ref([])
+
+const columns = [
+  {
+    label: 'Id',
+    key: 'id',
+  },
+  {
+    label: 'Nom',
+    key: 'name',
+    sortable: true
+  },
+  {
+    label: 'Pseudo',
+    key: 'username',
+    sortable: true
+  },
+  {
+    label: 'Email',
+    key: 'email',
+    sortable: true
+  }] as Column[]
+
+const users = [
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "website": "hildegard.org",
+  },
+  {
+    "id": 2,
+    "name": "Ervin Howell",
+    "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "website": "anastasia.net",
+  },
+  {
+    "id": 3,
+    "name": "Clementine Bauch",
+    "username": "Samantha",
+    "email": "Nathan@yesenia.net",
+    "website": "ramiro.info",
+  },
+  {
+    "id": 4,
+    "name": "Patricia Lebsack",
+    "username": "Karianne",
+    "email": "Julianne.OConner@kory.org",
+    "website": "kale.biz",
+  },
+  {
+    "id": 5,
+    "name": "Chelsey Dietrich",
+    "username": "Kamren",
+    "email": "Lucio_Hettinger@annie.ca",
+    "website": "demarco.info",
+  },
+  {
+    "id": 6,
+    "name": "Mrs. Dennis Schulist",
+    "username": "Leopoldo_Corkery",
+    "email": "Karley_Dach@jasper.info",
+    "website": "ola.org",
+  },
+  {
+    "id": 7,
+    "name": "Kurtis Weissnat",
+    "username": "Elwyn.Skiles",
+    "email": "Telly.Hoeger@billy.biz",
+    "website": "elvis.io",
+  },
+  {
+    "id": 8,
+    "name": "Nicholas Runolfsdottir V",
+    "username": "Maxime_Nienow",
+    "email": "Sherwood@rosamond.me",
+    "website": "jacynthe.com",
+  },
+  {
+    "id": 9,
+    "name": "Glenna Reichert",
+    "username": "Delphine",
+    "email": "Chaim_McDermott@dana.io",
+    "website": "conrad.com",
+  },
+  {
+    "id": 10,
+    "name": "Clementina DuBuque",
+    "username": "Moriah.Stanton",
+    "email": "Rey.Padberg@karina.biz",
+    "website": "ambrose.net",
+  },
+  {
+    "id": 11,
+    "name": "Jean claudus",
+    "username": "Jean.Claudus",
+    "email": "jclaudus@karina.biz",
+    "website": "claudus.net",
+  }
+]
 const { $notification } = useNuxtApp()
 function showNotification(position: any) {
   $notification({

@@ -7,7 +7,7 @@ const props = defineProps({
   activeDisabled: { type: Boolean, default: false },
   flat: { type: Boolean, default: false },
   border: { type: Boolean, default: false },
-  gradient: { type: Boolean, default: false },
+  gradient: { type: Boolean, default: true },
   relief: { type: Boolean, default: false },
   transparent: { type: Boolean, default: false },
   shadow: { type: Boolean, default: false },
@@ -327,10 +327,10 @@ const handleClick = (evt: Event) => {
   @apply pb-1.5;
 }
 .button--transparent {
-  @apply bg-transparent text-[rgba(var(--color),1)] overflow-hidden before:content-[""] before:absolute before:w-full before:h-full before:pointer-events-none before:transition-all before:duration-[0.25s] before:ease-[ease] before:z-[-1] before:opacity-0 before:box-border before:rounded-[inherit] before:scale-50 before:left-0 before:bottom-0;
+  @apply !bg-transparent !bg-gradient-to-r from-transparent to-transparent text-[rgba(var(--color),1)] overflow-hidden before:content-[""] before:absolute before:w-full before:h-full before:pointer-events-none before:transition-all before:duration-[0.25s] before:ease-[ease] before:z-[-1] before:opacity-0 before:box-border before:rounded-[inherit] before:scale-50 before:left-0 before:bottom-0;
 }
 .button--transparent:before {
-  @apply bg-primary bg-opacity-10
+  @apply bg-gray/10
 }
 .button--transparent:active:not(.button--active):before {
   @apply scale-90;
@@ -340,7 +340,7 @@ const handleClick = (evt: Event) => {
   @apply opacity-100 scale-100;
 }
 .button--transparent.button--active:before {
-  @apply bg-primary bg-opacity-20
+  @apply bg-transparent bg-opacity-20
 }
 .button--shadow {
   @apply bg-white text-[rgba(var(--text),1)] overflow-hidden shadow-[0_0_0_0];

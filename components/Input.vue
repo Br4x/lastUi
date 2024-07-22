@@ -8,7 +8,7 @@
     <div
       :class="['input-content rounded-none flex items-center justify-start relative rounded-xl', { 'mt-5': label || labelPlaceholder }]">
 
-      <input :disabled="loading || disabled" :class="['input  placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
+      <input v-if="!colorPicker" :disabled="loading || disabled" :class="['input  placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
     {
       'input--has-icon': !!icon || attrs.type === 'color',
       'input--has-icon--after': !!iconAfter,
@@ -21,11 +21,11 @@
       'bg-yellow-200 text-yellow-500 focus:(bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200)': state == 'warn',
       'bg-gray-100 text-gray-500 focus:(bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200)': !state,
       'bg-opacity-50 cursor-wait': loading,
-      'primary': state == 'primary',
-    }]" :value="modelValue" v-bind="attrs" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
+      'primary': state == 'primary'
+    }, inputClass]" :value="modelValue" v-bind="attrs" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
         @input="$emit('update:model-value', $event.target.value)" />
 
-      <label v-if="label || attrs.placeholder || labelPlaceholder" :for="getId" :class="['input__label',
+      <label v-if="(label || attrs.placeholder || labelPlaceholder) && !colorPicker" :for="getId" :class="['input__label',
     {
       'input__label--placeholder': labelPlaceholder,
       '': modelValue !== '' || attrs.type == 'date' || attrs.type == 'time',
@@ -90,9 +90,6 @@
 </template>
 
 <script setup lang="ts">
-/*import VsComponent from '~/mixins/component'
-import { setColor } from '~/util/index'*/
-
 const props = defineProps({
   modelValue: { type: String, default: '' },
   labelPlaceholder: { type: String, default: '' },
@@ -111,7 +108,9 @@ const props = defineProps({
   square: Boolean,
   disabled: Boolean,
   icon: String,
-  hint: String
+  hint: String,
+  inputClass: String,
+  colorPicker: Boolean
 })
 
 const emit = defineEmits(['update:model-value', 'click-icon'])

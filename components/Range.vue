@@ -3,9 +3,10 @@
 <div class="flex gap-2 items-end text-sm font-semibold">
   {{ label }}
   <div class="flex flex-col items-center w-fit text-black font-bold">
-    {{ modelValue }}
+    <input type="number" class="ml-4 w-full outline-none text-center":min="min" :max="max" :value="modelValue" :step="step"  
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
     <input type="range" :min="min" :max="max" :value="modelValue" :step="step" v-bind="$attrs"  class="range max-w-xs"
-    @input="$emit('update:modelValue', $event.target.value)">
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
   </div>
 </div>
 </template>

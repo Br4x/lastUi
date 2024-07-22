@@ -2,7 +2,7 @@
   <div
     class="absolute w-3 h-3 border-white text-[0.6rem] text-white font-bold z-200 text-text rounded-1/2 border-2 border-solid bg-red -right-1 -bottom-1"
     :class="{
-      ' w-auto h-auto min-w-4.5 flex items-center justify-center ': hasSlot || writing,
+      ' w-auto h-auto min-w-4.5 flex items-center justify-center bg-gradient-to-r from-primary to-indigo-600': hasSlot || writing,
       ' text-background leading-[0.9rem] min-h-4.5 px-[3px] py-0 rounded-lg': hasSlot || writing,
       '-right-0.5 -bottom-0.5': circle,
       '-top-0.5 bottom-auto': badgePosition === 'top-right' && circle,

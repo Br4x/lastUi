@@ -33,7 +33,7 @@ export default defineConfig({
       'on-error': '#FFFFFF',
       'error-container': '#FFDAD6',
       'on-error-container': '#410002',
-      'background': '#FEF7FF',
+      'background': '#FFFFFF',
       'on-background': '#1D1B20',
       'surface': '#FEF7FF',
       'on-surface': '#1D1B20',

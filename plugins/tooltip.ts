@@ -9,10 +9,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       el.replaceWith(parent)
       parent.appendChild(el)
-
       const tooltipElement = h(Tooltip, {
       }, {
-        default: () => createVNode(vnode.type, vnode.props, vnode.children),
+        default: () => createVNode(vnode.type, vnode.props, [...vnode.children]), // array with children else it break the devtools
         tooltip: () => binding.value
       })
       el.remove()
