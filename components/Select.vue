@@ -5,9 +5,10 @@
     { 'select--disabled': disabled, activeOptions, loading }
   ]" @mouseleave="handleMouseLeave" @mouseenter="handleMouseEnter" @click="toggleOptions">
       <button @blur="blur">
-        <input v-if="!multiple" :readonly="!filter" :id="!multiple ? _uid : null" class="select__input text-sm" ref="input"
-          :value="activeFilter ? textFilter : valueLabel" :class="{ multiple, simple: !multiple && !filter }"
-          @keydown="handleKeydown" @focus="handleFocus" @input="handleInput" @blur="blur" />
+        <input v-if="!multiple" :readonly="!filter" :id="!multiple ? _uid : ''" class="select__input text-sm"
+          ref="input" :value="activeFilter ? textFilter : valueLabel"
+          :class="{ multiple, simple: !multiple && !filter }" @keydown="handleKeydown" @focus="handleFocus"
+          @input="handleInput" @blur="blur" />
       </button>
 
       <label v-if="!multiple || label" class="select__label" :for="_uid" :class="{
@@ -38,15 +39,23 @@
       </button>
 
       <transition name="select">
-        <div v-if="activeOptions" class="select__options component--primary" ref="optionsRef"
-          :key="filteredOptions.length" @mouseleave="targetSelect = false; targetSelectInput = false"
+        <div v-if="activeOptions" class="select__options component--primary" ref="optionsRef" :key="textFilter"
+          @mouseleave="targetSelect = false; targetSelectInput = false"
           @mouseenter="targetSelect = true; targetSelectInput = true">
           <div class="select__options__content" ref="content">
             <div v-if="!options" class="select__options__content__not-data">
               <slot name="notData">No data available</slot>
             </div>
-            <SelectOption v-for="option in filteredOptions" :is-multiple="multiple" :option="option"
-              :is-active="isActive(option)" @clicked="clickOption" />
+            <template v-if="isArray(options)">
+              <SelectOption v-for="option in filteredOptions" :is-multiple="multiple" :option="option"
+                :is-active="isActive(option)" @clicked="clickOption" />
+            </template>
+            <template v-else>
+              <SelectOptionGroup v-for="options, label in filteredOptions" :label="label" :text-filter="textFilter">
+                <SelectOption v-for="option in options" :is-multiple="multiple" :option="option"
+                  :is-active="isActive(option)" @clicked="clickOption" />
+              </SelectOptionGroup>
+            </template>
           </div>
         </div>
       </transition>
@@ -64,10 +73,11 @@
 </template>
 
 <script setup lang="ts">
-import type { SelectOption } from '@/types/Select';
+import type { SelectOption, SelectOptionGroup } from '@/types/Select';
+import { forEach, isArray } from 'lodash';
 
 const props = defineProps({
-  modelValue: { type: [String, Number, Array<number>, Array<string>] },
+  modelValue: { type: [String, Number, Array<number>, Array<string>], required: true },
   multiple: { type: Boolean, default: false },
   filter: { type: Boolean, default: true },
   placeholder: { type: String, default: '' },
@@ -78,7 +88,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   state: { type: String, default: null },
   block: { type: Boolean, default: false },
-  options: { type: Object as PropType<SelectOption[]>, default: [] },
+  options: { type: Array as PropType<SelectOption[]> | Object as PropType<SelectOptionGroup>, default: [] },
   hint: String,
   hintClass: String,
 })
@@ -86,7 +96,7 @@ const props = defineProps({
 const chips_input = ref()
 const renderSelect = ref(false)
 const activeOptions = ref(false)
-const valueLabel = ref(null)
+const valueLabel = ref('')
 const hoverOption = ref(-1)
 const uids = ref([])
 const targetSelect = ref(false)
@@ -94,7 +104,7 @@ const targetSelectInput = ref(false)
 const targetClose = ref(false)
 const activeFilter = ref(false)
 const textFilter = ref('')
-const _uid = ref(null)
+const _uid = ref('')
 const optionsRef = ref()
 const select = ref()
 const chipsRef = ref()
@@ -103,10 +113,21 @@ const input = ref()
 const emit = defineEmits(['update:modelValue', 'focus'])
 
 const filteredOptions = computed(() => {
-  if (textFilter.value) {
-    return props.options.filter(opt => opt.label.toLowerCase().indexOf(textFilter.value.toLowerCase()) !== -1)
+  if (Array.isArray(props.options)) {
+    if (textFilter.value) {
+      return props.options.filter(opt => opt.label.toLowerCase().indexOf(textFilter.value.toLowerCase()) !== -1)
+    }
+    return props.options
+  } else {
+    if (textFilter.value) {
+      const map = {} as SelectOptionGroup
+      forEach(props.options, (options, label) => {
+        map[label] = options.filter(opt => opt.label.toLowerCase().indexOf(textFilter.value.toLowerCase()) !== -1)
+      })
+    }
+    return props.options
   }
-  return props.options
+
 })
 
 watch(() => textFilter.value, () => {
@@ -121,7 +142,7 @@ function insertOptions() {
 }
 
 function clickOption(option: SelectOption) {
-  if (props.multiple) {
+  if (props.multiple && Array.isArray(props.modelValue)) {
     const oldVal = [...props.modelValue]
     if (oldVal.indexOf(option.value) == -1) {
       oldVal.push(option.value)
@@ -149,10 +170,19 @@ function clickOption(option: SelectOption) {
 
 const chips = computed(() => {
   const chips: any[] = []
-  if (props.multiple) {
-    props.modelValue.forEach(item => {
-      const option = props.options.find(opt => opt.value === item)
-      chips.push(option)
+  if (props.multiple && Array.isArray(props.modelValue)) {
+    props.modelValue.forEach((item: any) => {
+      if (Array.isArray(props.options)) {
+        const option = props.options.find(opt => opt.value === item)
+        chips.push(option)
+      } else {
+        let option;
+        forEach(props.options, options => {
+          const exist = options.find(opt => opt.value === item)
+          if (exist) option = exist
+        })
+        if (option) chips.push(option)
+      }
     })
     if (props.collapseChips && chips.length > 1) {
       return [
@@ -171,31 +201,33 @@ function clickChipClose(chip: { value: any; }) {
 }
 
 function setHover() {
-  let index = -1
+  /*let index = -1
   props.options?.forEach((item, i) => {
     if (item.value == props.modelValue) {
       index = i
     }
   })
-  hoverOption.value = index
+  hoverOption.value = index*/
 }
 
 function getValue() {
-  const filterOptions = props.options?.filter(option => {
-    return props.modelValue == option.value
-  })
+  let filterOptions;
+  if (Array.isArray(props.options)) {
+    filterOptions = props.options?.filter(option => {
+      return props.modelValue == option.value
+    })
+  }
+
   const label = [] as string[]
 
-  filterOptions.forEach(item => {
+  filterOptions?.forEach(item => {
     label.push(item.label)
   })
 
   label.sort()
 
-  valueLabel.value = label
+  valueLabel.value = Array.isArray(label) ? label.join(', ') : label
 }
-
-
 
 function handleBlur() {
   nextTick(() => {
@@ -227,7 +259,6 @@ function handleFocusChips() {
 }
 
 function blur(evt: any) {
-  console.log('blur')
   if (!props.multiple) {
     if (!evt.relatedTarget) {
       handleBlur()
@@ -259,11 +290,10 @@ function toggleOptions() {
 }
 
 function handleKeydown(e: any) {
-  const KEY = e.key.toUpperCase()
+  /*const KEY = e.key.toUpperCase()
   if (KEY == 'ENTER' && hoverOption.value != -1) {
     clickOption(
-      props.options[hoverOption.value].value,
-      props.options[hoverOption.value].label
+      props.options[hoverOption.value]
     )
     e.preventDefault()
   }
@@ -278,11 +308,11 @@ function handleKeydown(e: any) {
     if (hoverOption.value == -1) {
       hoverOption.value = props.options?.length - 1
     }
-  }
+  }*/
 }
 
 function isActive(option: SelectOption) {
-  if (props.multiple) {
+  if (props.multiple && Array.isArray(props.modelValue)) {
     return props.modelValue.includes(option.value)
   }
 

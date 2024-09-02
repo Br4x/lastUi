@@ -121,7 +121,6 @@ let uid = Math.random().toString(36).substr(2, 9)
 
 const getId = computed(() => `input--${attrs.id || uid}`)
 function clickOnIcon(event: MouseEvent) {
-  console.log('lol')
   if (attrs.type !== 'color') {
     emit('click-icon', (event.target as HTMLInputElement).value)
   } else {

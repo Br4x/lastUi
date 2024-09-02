@@ -34,7 +34,9 @@
           <Input v-model="value" icon="i-bx-user" label-placeholder="Icon" />
           <Input icon="i-bx-lock-open-alt" type="password" icon-after v-model="value" placeholder="Icon after" />
           <Input v-model="value" icon="i-bx-user" label-placeholder="Loading" loading />
-          <div  class="mt-8 flex gap-2 items-center">Simple color picker <Input v-model="color" type="color" color-picker/></div>
+          <div class="mt-8 flex gap-2 items-center">Simple color picker <Input v-model="color" type="color"
+              color-picker />
+          </div>
         </div>
         <div class="flex flex-col gap-5 w-full  items-start">
           <Input v-model="value" icon="i-bx-user" label-placeholder="Success" state="success"
@@ -184,10 +186,11 @@
         </Dialog>
       </div>
       <span class="text-xl text-left font-bold w-full my-4">Select</span>
-      <div class="flex gap-5 justify-start  w-full">
+      <div class="flex gap-5 justify-start  w-full mb-4">
         <Select v-model="select" :options="options" label="Option" />
         <Select v-model="select2" multiple :options="options" label="Multiple" hint="Test message" />
       </div>
+      <Select v-model="select3" multiple :options="optionsWithGroup" label="With Groups" hint="Test message" />
       <span class="text-xl text-left font-bold w-full my-4">Tooltip</span>
       <div class="flex gap-5 justify-start  w-full">
         <Tooltip>
@@ -331,6 +334,7 @@ const activeTooltip2 = ref(false)
 const page = ref(2)
 const select = ref()
 const select2 = ref([])
+const select3 = ref([])
 const notifStyle = ref('border')
 const variant = ref('normal')
 const options = [{
@@ -351,6 +355,49 @@ const options = [{
   label: 'Truc'
 }
 ]
+
+const optionsWithGroup = {
+  "Diversiform": [
+    { value: "culture", label: 'Culture-specific' },
+    { value: "random", label: 'Culture-random' },
+    { value: "state", label: 'State-specific' },
+  ],
+  "Basic": [
+    { value: "heater", label: 'Heater' },
+    { value: "spanish", label: 'Spanish' },
+    { value: "french", label: 'French' },
+  ],
+  "Regional": [
+    { value: "horsehead", label: 'Horsehead' },
+    { value: "horsehead2", label: 'Horsehead Edgy' },
+    { value: "polish", label: 'Polish' },
+    { value: "hessen", label: 'Hessen' },
+    { value: "swiss", label: 'Swiss' },
+  ],
+  "Historical": [
+    { value: "boeotian", label: 'Boeotian' },
+    { value: "roman", label: 'Roman' },
+    { value: "kite", label: 'Kite' },
+    { value: "oldFrench", label: 'Old French' },
+    { value: "renaissance", label: 'Renaissance' },
+    { value: "baroque", label: 'Baroque' },
+  ],
+  "Specific": [
+    { value: "targe", label: 'Targe' },
+    { value: "targe2", label: 'Targe2' },
+    { value: "pavise", label: 'Pavise' },
+    { value: "wedged", label: 'Wedged' },
+  ],
+  "Banner": [
+    { value: "flag", label: 'Flag' },
+    { value: "pennon", label: 'Pennon' },
+    { value: "guidon", label: 'Guidon' },
+    { value: "banner", label: 'Banner' },
+    { value: "dovetail", label: 'Dovetail' },
+    { value: "gonfalon", label: 'Gonfalon' },
+    { value: "pennant", label: 'Pennant' },
+  ]
+}
 
 const styles = [{
   value: 'border',

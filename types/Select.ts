@@ -3,3 +3,7 @@ export interface SelectOption {
   value: number | string;
   disabled?: Boolean
 }
+
+export interface SelectOptionGroup {
+  [key: string]: SelectOption[]
+}
