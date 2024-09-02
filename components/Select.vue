@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import type { SelectOption, SelectOptionGroup } from '@/types/Select';
-import { forEach, isArray } from 'lodash';
+import { forEach, isArray, uniqueId} from 'lodash';
 
 const props = defineProps({
   modelValue: { type: [String, Number, Array<number>, Array<string>], required: true },
@@ -88,7 +88,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   state: { type: String, default: null },
   block: { type: Boolean, default: false },
-  options: { type: Array as PropType<SelectOption[]> | Object as PropType<SelectOptionGroup>, default: [] },
+  options: { type: [Array as PropType<SelectOption[]> , Object as PropType<SelectOptionGroup>], default: [] },
   hint: String,
   hintClass: String,
 })
@@ -97,14 +97,12 @@ const chips_input = ref()
 const renderSelect = ref(false)
 const activeOptions = ref(false)
 const valueLabel = ref('')
-const hoverOption = ref(-1)
-const uids = ref([])
 const targetSelect = ref(false)
 const targetSelectInput = ref(false)
 const targetClose = ref(false)
 const activeFilter = ref(false)
 const textFilter = ref('')
-const _uid = ref('')
+const _uid = ref(uniqueId('select_'))
 const optionsRef = ref()
 const select = ref()
 const chipsRef = ref()
