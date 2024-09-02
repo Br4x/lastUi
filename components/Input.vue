@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  modelValue: { type: String, default: '' },
+  modelValue: { type: [String, Number], default: '' },
   labelPlaceholder: { type: String, default: '' },
   label: { type: String, default: '' },
   block: Boolean,

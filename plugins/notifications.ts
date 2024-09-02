@@ -27,7 +27,6 @@ interface NotificationParams {
   classNotification?: string
 }
 
-
 export default defineNuxtPlugin(() => {
   return {
     provide: {
