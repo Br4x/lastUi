@@ -1,5 +1,5 @@
 <template>
-  <div :class="['select-content mt-2', { block }]">
+  <div :class="['select-content mt-2 max-w-50', { block }]">
     <div class="select" ref="select" :class="[
     `select--state-${state}`,
     { 'select--disabled': disabled, activeOptions, loading }

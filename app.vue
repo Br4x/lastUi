@@ -12,3 +12,10 @@ useHead({
   </NuxtLayout>
 </template>
 
+<style>
+body {
+  font-family: Open Sans;
+}
+    
+
+</style>
