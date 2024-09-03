@@ -40,7 +40,7 @@ defineEmits(['update:modelValue'])
   @apply h-2 w-full bg-secondary bg-opacity-30 rounded-2xl;
 }
 .range::-webkit-slider-thumb {
-  @apply relative h-4 w-4 bg-white appearance-none text-[oklch(100%_0_0/1)] -translate-y-2/4 shadow-[0_0_0_3px_#673ab7_inset,0_0,calc(100rem_*_-1_-_0.6rem)_0_0_100rem_#673ab7] rounded-2xl border-none top-2/4;
+  @apply relative h-4 w-4 bg-white appearance-none text-[oklch(100%_0_0/1)] -translate-y-2/4 shadow-[0_0_0_3px_#673ab7_inset,0_0,calc(100rem_*_-1_-_0.6rem)_0_0_100rem_#4f46e5] rounded-2xl border-none top-2/4;
 }
 
 </style>
