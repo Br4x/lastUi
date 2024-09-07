@@ -64,12 +64,14 @@
           <Button :active="active == 0" @click="active = 0">
             Active
           </Button>
-          <Button :active="active == 1" @click="active = 1">
-            Default
-          </Button>
-          <Button disabled>Disabled</Button>
-          <Button loading>loading</Button>
-          <Button gradient :active="active == 0" @click="active = 0">
+          <div class="button-group flex items-center justify-center">
+            <Button :active="active == 1" @click="active = 1">
+              Default
+            </Button>
+            <Button disabled>Disabled</Button>
+            <Button loading>loading</Button>
+          </div>
+          <Button transparent :active="active == 0" @click="active = 0">
             Active
           </Button>
           <Button gradient :active="active == 1" @click="active = 1">
@@ -192,13 +194,14 @@
       <span class="text-xl text-left font-bold w-full my-4">Select</span>
       <div class="flex gap-5 justify-start  w-full mb-4">
         <Select v-model="select" :options="options" label="Option" />
-        <Select v-model="select2" multiple :options="options" label="Multiple"  />
+        <Select v-model="select2" multiple :options="options" label="Multiple" />
       </div>
       <div class="flex gap-5 justify-start  w-full mb-4">
         <Select v-model="select4" :options="optionsWithGroup" label="With Groups" />
-        <Select v-model="select3" multiple :options="optionsWithGroup" label="Multiple With Groups" hint="Test message" />
+        <Select v-model="select3" multiple :options="optionsWithGroup" label="Multiple With Groups"
+          hint="Test message" />
       </div>
-      
+
       <span class="text-xl text-left font-bold w-full my-4">Tooltip</span>
       <div class="flex gap-5 justify-start  w-full">
         <Tooltip>
@@ -556,7 +559,7 @@ function showDialog() {
   $dialog({
     resizable: false,
     title: "Generate new map",
-     body: `Are you sure you want to generate a new map?<br />
+    body: `Are you sure you want to generate a new map?<br />
     All unsaved changes made to the current map will be lost`,
     buttons: {
       Generate: () => {
@@ -565,7 +568,7 @@ function showDialog() {
       Cancel: () => {
 
       },
-     
+
     }
   });
 }
