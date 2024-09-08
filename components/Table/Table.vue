@@ -1,6 +1,6 @@
 <template>
   <div class="table-content">
-    <header v-if="$slots.header || searchable" class="table__header">
+    <header v-if="$slots.header || searchable" class="table__header flex gap-2 items-center w-full">
       <Input v-if="searchable" icon="i-mynaui-search" v-model="search" type="search" input-class="!bg-white text-sm"
         name="new-password" autocomplete="new-password" autofocus />
       <slot name="header" />
@@ -19,7 +19,7 @@
         </thead>
         <tbody class="table__tbody">
           <TableRow v-for="item in filteredItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-            :data="item">
+            :data="item" @mouse-enter="$emit('mouseEnter', $event)" @mouse-leave="$emit('mouseLeave', $event)">
             <TableCell v-if="hasSelection" checkbox>
               <Checkbox :checked-force="isSelected(item)" @update:model-value="select(item)" />
             </TableCell>
@@ -66,7 +66,7 @@ const props = defineProps({
 
 const colspan = ref(0)
 const theadRef = ref()
-const emit = defineEmits(['update:modelValue', 'sort'])
+const emit = defineEmits(['update:modelValue', 'sort', 'mouseEnter', 'mouseLeave'])
 const sortCol = ref()
 const sortDirection = ref('')
 const currentPage = ref(1)

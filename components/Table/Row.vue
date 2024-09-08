@@ -1,6 +1,8 @@
 <template>
   <tr
     :class="{'table__tr': true, 'selected': isSelected, 'isExpand': !!expandContainer, 'expand': $slots.expand}"
+    @mouseenter="$emit('mouseEnter', data)"
+    @mouseleave="$emit('mouseLeave', data)"
     @click="handleClick"
   >
     <slot />
@@ -17,7 +19,7 @@ const props = defineProps({
   notClickSelected: Boolean,
   openExpandOnlyTd: Boolean
 })
-const emit= defineEmits(['update:modelValue', 'click', 'selected'])
+const emit= defineEmits(['update:modelValue', 'click', 'selected', 'mouseEnter', 'mouseLeave'])
 const expandContainer = ref()
 const slots = useSlots()
 
