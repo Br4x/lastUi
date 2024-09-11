@@ -12,7 +12,7 @@ interface DialogParams {
 }
 
 interface PromptDefault {
-  default?:String,
+  default?:string | number,
   min?: number,
   max?: number,
   step?:number,
