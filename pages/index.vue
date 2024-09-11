@@ -190,6 +190,10 @@
         <Button @click="showDialog">
           Open Dialog via plugin
         </Button>
+
+        <Button @click="showPrompt">
+          Open Prompt via plugin
+        </Button>
       </div>
       <span class="text-xl text-left font-bold w-full my-4">Select</span>
       <div class="flex gap-5 justify-start  w-full mb-4">
@@ -540,7 +544,7 @@ const users = [
     "website": "claudus.net",
   }
 ]
-const { $notification, $dialog } = useNuxtApp()
+const { $notification, $dialog, $prompt } = useNuxtApp()
 function showNotification(position: any) {
   $notification({
     title: 'Hello!',
@@ -571,6 +575,16 @@ function showDialog() {
 
     }
   });
+}
+
+function showPrompt() {
+  $prompt(
+    `Put an number and see it appears in log`,
+    { default: 'lol' },
+    (value) => {
+      console.log('value :', value)
+    }
+  );
 }
 
 </script>
