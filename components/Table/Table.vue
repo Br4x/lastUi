@@ -19,7 +19,7 @@
         </thead>
         <tbody class="table__tbody">
           <TableRow v-for="item in filteredItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-            :data="item" @mouse-enter="$emit('mouseEnter', $event)" @mouse-leave="$emit('mouseLeave', $event)">
+            :data="item" @mouse-enter="$emit('mouseEnter', $event)" @mouse-leave="$emit('mouseLeave', $event)" @selected="$emit('clickRow', $event)">
             <TableCell v-if="hasSelection" checkbox>
               <Checkbox :checked-force="isSelected(item)" @update:model-value="select(item)" />
             </TableCell>
@@ -41,6 +41,7 @@
       </table>
     </div>
     <footer v-if="items.length > pageSize" class="table__footer">
+      <slot name="footer" />
       <Pagination v-model="currentPage" :length="Math.ceil(items.length / pageSize)" />
     </footer>
   </div>
@@ -54,7 +55,7 @@ const props = defineProps({
   modelValue: { type: Array<any>, default: () => [] },
   striped: Boolean,
   loading: Boolean,
-  emptyText: String,
+  emptyText: { type: String, default: 'Pas de données' },
   items: { type: Array<any>, required: true },
   columns: { type: Array<Column>, required: true },
   hasSelection: Boolean,
@@ -66,7 +67,7 @@ const props = defineProps({
 
 const colspan = ref(0)
 const theadRef = ref()
-const emit = defineEmits(['update:modelValue', 'sort', 'mouseEnter', 'mouseLeave'])
+const emit = defineEmits(['update:modelValue', 'sort', 'mouseEnter', 'mouseLeave', 'clickRow'])
 const sortCol = ref()
 const sortDirection = ref('')
 const currentPage = ref(1)
