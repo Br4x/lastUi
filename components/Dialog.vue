@@ -14,7 +14,8 @@ const props = defineProps({
   scroll: Boolean,
   notCenter: Boolean,
   width: String,
-  routerClose: Boolean
+  routerClose: Boolean,
+  buttons: Object
 })
 
 const emit = defineEmits(['update:model-value', 'close'])
@@ -106,6 +107,10 @@ function closeDialog(evt: any) {
           <slot />
         </div>
         <footer v-if="$slots.footer" class="dialog__footer">
+          <div v-if="buttons" v-for="(launch, button) in buttons" class="flex gap-2">
+            <Button :label="button" @click="launch" />
+          </div>
+          
           <slot name="footer" />
         </footer>
       </div>
