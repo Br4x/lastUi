@@ -1,43 +1,43 @@
 <template>
   <div :class="['select-content mt-2 max-w-50', { block }]">
     <div class="select" ref="select" :class="[
-    `select--state-${state}`,
-    { 'select--disabled': disabled, activeOptions, loading }
-  ]" @mouseleave="handleMouseLeave" @mouseenter="handleMouseEnter" @click="toggleOptions">
+      `select--state-${state}`,
+      { 'select--disabled': disabled, activeOptions, loading }
+    ]" @mouseleave="handleMouseLeave" @mouseenter="handleMouseEnter" @click="toggleOptions">
       <button @blur="blur">
-        <span v-if="icon" :class="[
-    'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
-    {
-      'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
-      'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
-      'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
-      'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
-      'focus:bg-gray-100': !state,
-      'input__icon--after': iconAfter,
-    }
-  ]">
-        <i :class="icon" />
-      </span>
+        <span v-if="icon && !multiple" :class="[
+          'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
+          {
+            'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
+            'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
+            'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
+            'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
+            'focus:bg-gray-100': !state,
+            'input__icon--after': iconAfter,
+          }
+        ]">
+          <i :class="icon" />
+        </span>
         <input v-if="!multiple" :readonly="!filter" :id="!multiple ? _uid : ''" class="select__input text-sm"
           ref="input" :value="activeFilter ? textFilter : valueLabel"
-          :class="{ multiple, simple: !multiple && !filter, 'select__input--has-icon': !!icon }" @keydown="handleKeydown" @focus="handleFocus"
-          @input="handleInput" @blur="blur" />
+          :class="{ multiple, simple: !multiple && !filter, 'select__input--has-icon': !!icon }"
+          @keydown="handleKeydown" @focus="handleFocus" @input="handleInput" @blur="blur" />
       </button>
 
       <label v-if="!multiple || label" class="select__label" :for="_uid" :class="{
-    'select__label--placeholder': labelPlaceholder,
-    'select__label--label': label,
-    'select__label--hidden': modelValue,
-  }">
+        'select__label--placeholder': labelPlaceholder,
+        'select__label--label': label,
+        'select__label--hidden': modelValue,
+      }">
         {{ labelPlaceholder || label }}
       </label>
 
       <label v-if="!multiple && !labelPlaceholder" class="select__label" ref="placeholder" :for="_uid"
         :class="{ 'select__label--hidden': modelValue || textFilter }">
-         {{ placeholder }}
+        {{ placeholder }}
       </label>
 
-      <button v-if="multiple" class="select__chips" ref="chipsRef" @keydown="handleKeydown" @focus="handleFocusChips"
+      <button v-if="multiple" class="select__chips" ref="chipsRef" :class="{ 'select__chips--has-icon': !!icon }" @keydown="handleKeydown" @focus="handleFocusChips"
         @blur="blur">
         <span v-for="chip in chips" class="select__chips__chip" :data-value="chip.value"
           :class="{ isCollapse: chip.isCollapse }">
@@ -47,8 +47,22 @@
             <i class="i-mynaui-x icon-close" />
           </span>
         </span>
-        <input v-if="filter" class="select__chips__input" ref="chips_input" :placeholder="placeholder" :id="_uid"
-          :value="textFilter" @focus="handleFocus" @blur="blur" @input="handleInput" />
+        <span v-if="icon" :class="[
+          'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
+          {
+            'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
+            'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
+            'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
+            'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
+            'focus:bg-gray-100': !state,
+            'input__icon--after': iconAfter,
+          }
+        ]">
+          <i :class="icon" />
+        </span>
+        <input v-if="filter" class="select__chips__input" 
+          ref="chips_input" :placeholder="placeholder" :id="_uid" :value="textFilter" @focus="handleFocus" @blur="blur"
+          @input="handleInput" />
       </button>
 
       <transition name="select">
@@ -87,7 +101,7 @@
 
 <script setup lang="ts">
 import type { SelectOption, SelectOptionGroup } from '@/types/Select';
-import { forEach, isArray, uniqueId} from 'lodash';
+import { forEach, isArray, uniqueId } from 'lodash';
 
 const props = defineProps({
   modelValue: { type: [String, Number, Array<number>, Array<string>], required: true },
@@ -102,7 +116,7 @@ const props = defineProps({
   state: { type: String, default: null },
   block: { type: Boolean, default: false },
   icon: String,
-  options: { type: [Array as PropType<SelectOption[]> , Object as PropType<SelectOptionGroup>], default: [] },
+  options: { type: [Array as PropType<SelectOption[]>, Object as PropType<SelectOptionGroup>], default: [] },
   hint: String,
   hintClass: String,
 })
@@ -438,6 +452,7 @@ onMounted(() => {
 .select:hover .input__icon {
   @apply -translate-y-1 transition-all duration-[0.25s] ease-[ease] delay-[0s];
 }
+
 .select__input--has-icon {
   @apply pl-10;
 }
@@ -464,8 +479,7 @@ onMounted(() => {
 }
 
 .input__icon {
-  @apply z-2
-  box-shadow: 12px 0 10px -10px rgba(0, 0, 0, 0.15);
+  @apply z-2 box-shadow: 12px 0 10px -10px rgba(0, 0, 0, 0.15);
 }
 
 .input__icon--after {
@@ -492,6 +506,31 @@ onMounted(() => {
 
 .select__chips__input::placeholder {
   @apply text-gray-800/40;
+}
+
+.select__chips--has-icon {
+  @apply pl-10;
+}
+
+.select__chips--has-icon~.input__label {
+  @apply left-11;
+}
+
+.select__chips--has-icon--after {
+  @apply pl-[7px] pr-10;
+}
+
+.select__chips--has-icon--after~.input__label {
+  @apply left-[13px];
+}
+
+.select__chips--has-icon--after.input__label--label,
+.select__chips--has-icon:focus--has-icon--after~.input__label--placeholder {
+  @apply translate-x-[-25px] translate-y-[-80%];
+}
+
+.select__chips--has-icon:focus--has-icon--after~.input__label {
+  @apply left-11;
 }
 
 .select__chips__chip {
