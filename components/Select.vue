@@ -5,9 +5,22 @@
     { 'select--disabled': disabled, activeOptions, loading }
   ]" @mouseleave="handleMouseLeave" @mouseenter="handleMouseEnter" @click="toggleOptions">
       <button @blur="blur">
+        <span v-if="icon" :class="[
+    'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
+    {
+      'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
+      'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
+      'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
+      'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
+      'focus:bg-gray-100': !state,
+      'input__icon--after': iconAfter,
+    }
+  ]">
+        <i :class="icon" />
+      </span>
         <input v-if="!multiple" :readonly="!filter" :id="!multiple ? _uid : ''" class="select__input text-sm"
           ref="input" :value="activeFilter ? textFilter : valueLabel"
-          :class="{ multiple, simple: !multiple && !filter }" @keydown="handleKeydown" @focus="handleFocus"
+          :class="{ multiple, simple: !multiple && !filter, 'select__input--has-icon': !!icon }" @keydown="handleKeydown" @focus="handleFocus"
           @input="handleInput" @blur="blur" />
       </button>
 
@@ -21,7 +34,7 @@
 
       <label v-if="!multiple && !labelPlaceholder" class="select__label" ref="placeholder" :for="_uid"
         :class="{ 'select__label--hidden': modelValue || textFilter }">
-        {{ placeholder }}
+         {{ placeholder }}
       </label>
 
       <button v-if="multiple" class="select__chips" ref="chipsRef" @keydown="handleKeydown" @focus="handleFocusChips"
@@ -88,6 +101,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   state: { type: String, default: null },
   block: { type: Boolean, default: false },
+  icon: String,
   options: { type: [Array as PropType<SelectOption[]> , Object as PropType<SelectOptionGroup>], default: [] },
   hint: String,
   hintClass: String,
@@ -377,6 +391,10 @@ onMounted(() => {
   @apply shadow-[0_5px_25px_-4px] -translate-y-1 transition-all duration-[0.25s] ease-[ease] delay-[0s];
 }
 
+.select.activeOptions .input__icon {
+  @apply -translate-y-1 transition-all duration-[0.25s] ease-[ease] delay-[0s];
+}
+
 .select.activeOptions .select__chips {
   @apply rounded-[12px_12px_0_0] after:opacity-0;
 }
@@ -415,6 +433,43 @@ onMounted(() => {
 
 .select__input:hover~.icon-arrow {
   @apply -mt-1.5;
+}
+
+.select:hover .input__icon {
+  @apply -translate-y-1 transition-all duration-[0.25s] ease-[ease] delay-[0s];
+}
+.select__input--has-icon {
+  @apply pl-10;
+}
+
+.select__input--has-icon~.input__label {
+  @apply left-11;
+}
+
+.select__input--has-icon--after {
+  @apply pl-[7px] pr-10;
+}
+
+.select__input--has-icon--after~.input__label {
+  @apply left-[13px];
+}
+
+.select__input--has-icon--after.input__label--label,
+.select__input--has-icon:focus--has-icon--after~.input__label--placeholder {
+  @apply translate-x-[-25px] translate-y-[-80%];
+}
+
+.select__input--has-icon:focus--has-icon--after~.input__label {
+  @apply left-11;
+}
+
+.input__icon {
+  @apply z-2
+  box-shadow: 12px 0 10px -10px rgba(0, 0, 0, 0.15);
+}
+
+.input__icon--after {
+  @apply shadow-[-12px_0_10px_-10px_rgba(0, 0, 0, 0.05)] left-auto right-0;
 }
 
 .select__chips {
