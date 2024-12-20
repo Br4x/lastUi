@@ -16,14 +16,12 @@ const props = defineProps({
   width: String,
   routerClose: Boolean,
   buttons: Object,
-  isPrompt: Boolean
 })
 
 const emit = defineEmits(['update:model-value', 'close', 'confirm'])
 
 const rebound = ref(false)
 const dialogContent = ref<HTMLElement | null>(null)
-const promptText = ref('')
 
 const esc = (evt: KeyboardEvent) => {
   if (evt.key === 'Escape' && !props.preventClose) {
@@ -107,16 +105,10 @@ function closeDialog(evt: any) {
         </header>
         <div class="dialog__content" :class="{ notFooter: !$slots.footer }">
           <slot />
-          <Input v-model="promptText" />
         </div>
         <footer v-if="$slots.footer" class="dialog__footer">
           <div v-if="buttons" v-for="(launch, button) in buttons" class="flex gap-2">
             <Button :label="button" @click="launch" />
-          </div>
-
-          <div v-if="isPrompt" class="flex gap-2">
-            <Button label="Confirm" @click="$emit('confirm', promptText)" />
-            <Button label="Cancel" @click="$emit('update:model-value', false); $emit('close')" />
           </div>
 
           <slot name="footer" />
