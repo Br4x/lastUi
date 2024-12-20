@@ -15,13 +15,15 @@ const props = defineProps({
   notCenter: Boolean,
   width: String,
   routerClose: Boolean,
-  buttons: Object
+  buttons: Object,
+  isPrompt: Boolean
 })
 
-const emit = defineEmits(['update:model-value', 'close'])
+const emit = defineEmits(['update:model-value', 'close', 'confirm'])
 
 const rebound = ref(false)
 const dialogContent = ref<HTMLElement | null>(null)
+const promptText = ref('')
 
 const esc = (evt: KeyboardEvent) => {
   if (evt.key === 'Escape' && !props.preventClose) {
@@ -83,19 +85,19 @@ function closeDialog(evt: any) {
     <div v-if="props.modelValue" ref="dialogContent"
       :class="['dialog-content', { blur: props.blur, fullScreen: props.fullScreen }]" @click="closeDialog">
       <div :class="['dialog', {
-      'dialog--fullScreen': props.fullScreen,
-      'dialog--rebound': rebound,
-      'dialog--notPadding': props.notPadding,
-      'dialog--square': props.square,
-      'dialog--autoWidth': props.autoWidth,
-      'dialog--scroll': props.scroll,
-      'dialog--loading': props.loading,
-      'dialog--notCenter': props.notCenter,
-    }]" :style="{ width: props.width }">
+        'dialog--fullScreen': props.fullScreen,
+        'dialog--rebound': rebound,
+        'dialog--notPadding': props.notPadding,
+        'dialog--square': props.square,
+        'dialog--autoWidth': props.autoWidth,
+        'dialog--scroll': props.scroll,
+        'dialog--loading': props.loading,
+        'dialog--notCenter': props.notCenter,
+      }]" :style="{ width: props.width }">
         <div v-if="props.loading" class="dialog__loading">
           <div class="dialog__loading__load" />
         </div>
-        <button v-if="!props.notClose" class="dialog__close" @click="emit('update:model-value', false);emit('close')">
+        <button v-if="!props.notClose" class="dialog__close" @click="emit('update:model-value', false); emit('close')">
           <i class="i-ic-baseline-close" :hover="'x'" />
         </button>
         <header v-if="$slots.header || title" class="dialog__header">
@@ -105,12 +107,18 @@ function closeDialog(evt: any) {
         </header>
         <div class="dialog__content" :class="{ notFooter: !$slots.footer }">
           <slot />
+          <Input v-model="promptText" />
         </div>
         <footer v-if="$slots.footer" class="dialog__footer">
           <div v-if="buttons" v-for="(launch, button) in buttons" class="flex gap-2">
             <Button :label="button" @click="launch" />
           </div>
-          
+
+          <div v-if="isPrompt" class="flex gap-2">
+            <Button label="Confirm" @click="$emit('confirm', promptText)" />
+            <Button label="Cancel" @click="$emit('update:model-value', false); $emit('close')" />
+          </div>
+
           <slot name="footer" />
         </footer>
       </div>

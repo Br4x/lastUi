@@ -7,7 +7,7 @@
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
     <input type="range" :min="min" :max="max" :value="modelValue" :step="step" v-bind="$attrs"  class="range max-w-xs" :class="{'range--has-icon': !!icon}"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
-    <i :class="icon" class="absolute top-7 pointer-events-none" :style="{left: `calc(${(parseInt(modelValue) / parseInt(max)) * 208}px - ${(parseInt(modelValue) / parseInt(max)) * 32}px + 8px)`}"/>
+    <i :class="icon" class="absolute top-7 pointer-events-none" :style="{left: `calc(${(parseInt(modelValue) / parseInt(max)) * 120}px - ${(parseInt(modelValue) / parseInt(max)) * 32}px + 8px)`}"/>
   </div>
 </div>
 </template>
@@ -36,7 +36,7 @@ defineEmits(['update:modelValue'])
 
 <style scoped>
 .range {
-  @apply h-4 w-52 cursor-pointer appearance-none overflow-hidden bg-transparent rounded-2xl;
+  @apply h-4 w-30 cursor-pointer appearance-none overflow-hidden bg-transparent rounded-2xl;
 }
 .range.range--has-icon{
   @apply !h-8

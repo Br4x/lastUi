@@ -52,7 +52,7 @@
       <span class="text-xl text-left font-bold w-full mt-4">Range</span>
       <div class="flex gap-5 w-full items-start">
         <div class="flex flex-col gap-5 w-full  items-start">
-          <Range label="No step" v-model="range" placeholder="Simple" />
+          <Range label="No step" v-model="range" placeholder="Simple" icon="i-bx-lock-open-alt" />
         </div>
         <div class="flex flex-col gap-5 w-full  items-start">
           <Range label="Step" v-model="range" step="5" placeholder="Simple" />
@@ -197,8 +197,8 @@
       </div>
       <span class="text-xl text-left font-bold w-full my-4">Select</span>
       <div class="flex gap-5 justify-start  w-full mb-4">
-        <Select v-model="select" :options="options" label="Option" />
-        <Select v-model="select2" multiple :options="options" label="Multiple" />
+        <Select  v-model="select" :options="options" label="Option" />
+        <Select v-model="select2" multiple :options="options" label="Multiple" icon="i-bx-lock-open-alt" />
       </div>
       <div class="flex gap-5 justify-start  w-full mb-4">
         <Select v-model="select4" :options="optionsWithGroup" label="With Groups" />
@@ -329,6 +329,10 @@
             <a>{{ item.name }}</a>
           </template>
         </Table>
+      </div>
+      <span class="text-xl text-left font-bold w-full my-4">Upload Card</span>
+      <div class="flex gap-5 w-full items-start">
+        <UploadCard title="Test 1" description="jsdqh jkqsdhjkq sdhqsdkjhqdskjh qds hkjqdshqskd" />
       </div>
     </div>
   </div>
@@ -588,3 +592,17 @@ function showPrompt() {
 }
 
 </script>
+
+<style>
+@keyframes animate
+{
+  0%, 100%
+  {
+    transform: translateY(10px);
+  }
+  
+  50%
+  {
+    transform: translate(-10px);
+  }
+}</style>
