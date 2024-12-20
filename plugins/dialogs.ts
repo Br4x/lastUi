@@ -8,7 +8,7 @@ interface DialogParams {
   body?: String,
   buttons?: Object,
   resizable?:Boolean,
-  position?:String
+  position?:String,
 }
 
 interface PromptDefault {
