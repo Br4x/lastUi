@@ -4,4 +4,5 @@ export interface Column {
   sortable?: boolean;
   class?: string;
   icon?: string
+  tip?: string;
 }

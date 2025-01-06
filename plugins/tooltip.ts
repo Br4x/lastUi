@@ -4,7 +4,7 @@ import { h, render, createVNode } from 'vue'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('tip', {
     mounted(el, binding, vnode) {
-
+      if(!binding.value) return
       const parent = document.createElement('div')
 
       el.replaceWith(parent)

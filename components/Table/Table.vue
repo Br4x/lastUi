@@ -13,8 +13,8 @@
           </TableHeader>
           <TableHeader v-for="column in columns" :sort-by="column.key" :sort="column.sortable"
             :is-sorted="column.key === sortCol" :key="column.label" @click="sort(column.key)"
-            :sort-direction="sortDirection">
-            <i v-if="column.icon" :class="column.icon" />{{ column.label }}
+            :sort-direction="sortDirection" v-tip="column.tip">
+            <i v-if="column.icon" :class="column.icon" /> {{ column.label }}
           </TableHeader>
         </thead>
         <tbody class="table__tbody">
