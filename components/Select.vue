@@ -101,7 +101,7 @@
 
 <script setup lang="ts">
 import type { SelectOption, SelectOptionGroup } from '@/types/Select';
-import { forEach, isArray, uniqueId } from 'lodash';
+import { forEach, isArray, uniqueId } from 'lodash-es';
 
 const props = defineProps({
   modelValue: { type: [String, Number, Array<number>, Array<string>], required: true },

@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { find, forEach, includes, orderBy } from 'lodash';
+import { find, forEach, includes, orderBy } from 'lodash-es';
 import type { Column } from '@/types/Table';
 
 const props = defineProps({
