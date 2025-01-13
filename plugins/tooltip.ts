@@ -10,18 +10,20 @@ export default defineNuxtPlugin((nuxtApp) => {
       const parent = el.cloneNode(false); // Ne pas cloner les enfants
       el.replaceWith(parent);
 
-      // Traiter les différents formats de vnode.children
-      let children = [];
-
+      // Détecter les enfants dans vnode
+      let children;
       if (Array.isArray(vnode.children)) {
-        // Si c'est un tableau, on l'utilise tel quel
+        // Cas où les enfants sont déjà un tableau
         children = vnode.children;
       } else if (typeof vnode.children === 'function') {
-        // Si c'est une fonction (slot), on l'appelle pour obtenir le contenu
+        // Cas où les enfants sont une fonction (slot dynamique)
         children = vnode.children();
-      } else if (vnode.children) {
-        // Sinon, encapsuler l'enfant unique dans un tableau
+      } else if (typeof vnode.children === 'string' || typeof vnode.children === 'object') {
+        // Cas où les enfants sont une chaîne ou un objet unique
         children = [vnode.children];
+      } else {
+        // Aucun enfant ou format inattendu
+        children = [];
       }
 
       // Créer le composant Tooltip
@@ -30,7 +32,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         {},
         {
           default: () =>
-            createVNode(vnode.type, vnode.props, children), // Utiliser les enfants traités
+            createVNode(vnode.type, vnode.props || {}, children), // Utiliser les enfants traités
           tooltip: () => binding.value, // Passer la valeur de la directive comme prop
         }
       );
@@ -38,5 +40,5 @@ export default defineNuxtPlugin((nuxtApp) => {
       // Rendu du Tooltip dans le conteneur cloné
       render(tooltipElement, parent);
     },
-  })
-})
+  });
+});
