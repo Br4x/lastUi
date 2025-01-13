@@ -5,16 +5,16 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('tip', {
     mounted(el, binding, vnode) {
       if(!binding.value) return
-      const parent = document.createElement('div')
+      const parent = el.cloneNode(false)
 
       el.replaceWith(parent)
-      parent.appendChild(el)
+      //parent.appendChild(el)
       const tooltipElement = h(Tooltip, {
       }, {
-        default: () => createVNode(vnode.type, vnode.props, Array.isArray(vnode.children) ? [...vnode.children] : undefined), // array with children else it break the devtools
+        default: () => vnode.children || [], // array with children else it break the devtools
         tooltip: () => binding.value
       })
-      el.remove()
+      //el.remove()
       render(tooltipElement, parent)
 
     },
