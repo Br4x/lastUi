@@ -36,6 +36,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           tooltip: () => binding.value, // Passer la valeur de la directive comme prop
         }
       );
+      el.remove()
 
       // Rendu du Tooltip dans le conteneur cloné
       render(tooltipElement, parent);
