@@ -40,9 +40,9 @@
         </tbody>
       </table>
     </div>
-    <footer v-if="items.length > pageSize" class="table__footer">
-      <slot name="footer" />
-      <Pagination v-model="currentPage" :length="Math.ceil(items.length / pageSize)" />
+    <footer  class="table__footer flex flex-col gap-2 items-center justify-center">
+      <div class="flex gap-2"><slot name="footer" /></div>
+      <Pagination v-if="items.length > pageSize" v-model="currentPage" :length="Math.ceil(items.length / pageSize)" />
     </footer>
   </div>
 </template>
