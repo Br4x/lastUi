@@ -3,7 +3,7 @@
 <div class="flex gap-2 items-end text-sm font-semibold">
   <span :class="{'pb-2': !!icon}">{{ label }}</span>
   <div class="flex flex-col items-center w-fit text-black font-bold relative">
-    <input type="number" class="ml-4 w-full outline-none text-center":min="min" :max="max" :value="modelValue" :step="step"  
+    <input type="number" class="ml-4 w-full outline-none text-center bg-transparent":min="min" :max="max" :value="modelValue" :step="step"  
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
     <input type="range" :min="min" :max="max" :value="modelValue" :step="step" v-bind="$attrs"  class="range max-w-xs" :class="{'range--has-icon': !!icon}"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
