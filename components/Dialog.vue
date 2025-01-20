@@ -161,7 +161,7 @@ function closeDialog(evt: any) {
 }
 
 .dialog {
-  @apply !bg-white text-[rgba(var(--text), 1)] relative min-w-[400px] rounded-[20px] transition-all duration-[0.25s] ease-[ease] shadow-[0_5px_30px_0_rgba(0, 0, 0, var(--shadow-opacity))] max-w-[800px] m-auto;
+  @apply !bg-white text-[rgba(var(--text), 1)] relative min-w-[400px] rounded-[20px] transition-all duration-[0.25s] ease-[ease] shadow-[0_5px_30px_0_rgba(0, 0, 0, var(--shadow-opacity))] m-auto;
 }
 
 .dialog--notCenter .dialog__header {
