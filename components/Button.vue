@@ -359,10 +359,10 @@ const handleClick = (evt: Event) => {
   @apply m-0 last-of-type:rounded-[0_12px_12px_0] first-of-type:rounded-[12px_0_0_12px];
 }
 .button-group .button.button--transparent {
-  @apply border-x-1;
+  @apply border-y-1 border-slate-200;
 }
 .button-group .button.button--transparent:nth-last-child() {
-  @apply border-r-1;
+  @apply border-r-1 border-slate-200;
 }
 .button-group .button:not(:last-of-type):not(:first-of-type) {
   @apply rounded-none border-0;
