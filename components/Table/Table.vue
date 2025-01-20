@@ -85,7 +85,7 @@ const orderedItems = computed(() => {
     // @ts-ignore
     return orderBy(props.items, sortCol.value, sortDirection.value)
   }
-  return props.items
+  return props.items || []
 })
 
 const filteredItems = computed(() => {
