@@ -115,6 +115,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   state: { type: String, default: null },
   block: { type: Boolean, default: false },
+  iconAfter: Boolean,
   icon: String,
   options: { type: [Array as PropType<SelectOption[]>, Object as PropType<SelectOptionGroup>], default: [] },
   hint: String,
