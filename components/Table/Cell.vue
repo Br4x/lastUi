@@ -17,6 +17,6 @@ defineProps({
 
 <style scoped>
 .table__td {
-  @apply transition-all duration-[0.25s] ease-[ease] text-[0.8rem] px-3 py-2.5 border-0 last:rounded-[0_15px_15px_0] first:rounded-[15px_0_0_15px];
+  @apply transition-all duration-[0.25s] ease-[ease] text-[0.8rem] px-1.5 py-1.25 border-0 last:rounded-[0_15px_15px_0] first:rounded-[15px_0_0_15px];
 }
 </style>

@@ -220,7 +220,7 @@ function isSelected(item: any) {
 }
 
 .table__tr {
-  @apply p-[5px] border-b border-b-gray-200;
+  @apply p-1 border-b border-b-gray-200;
 }
 
 .table__tr.expand {
