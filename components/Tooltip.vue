@@ -150,6 +150,7 @@ onMounted(() => {
     contentRef.value = props.focusedElement
     props.focusedElement.addEventListener('mouseover', handleMouseEnterTooltip)
     props.focusedElement.addEventListener('mouseleave', handleMouseLeaveTooltip)
+    props.focusedElement.addEventListener('click', handleMouseLeaveTooltip)
   }
 
   window.addEventListener('popstate', () => {
@@ -174,6 +175,7 @@ onBeforeUnmount(() => {
   if (props.viaDirective) {
     props.focusedElement.removeEventListener('mouseover', handleMouseEnterTooltip)
     props.focusedElement.removeEventListener('mouseleave', handleMouseLeaveTooltip)
+    props.focusedElement.removeEventListener('click', handleMouseLeaveTooltip)
   }
 })
 </script>
