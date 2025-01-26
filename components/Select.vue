@@ -585,7 +585,7 @@ onMounted(() => {
 }
 
 .select__label {
-  @apply absolute text-[0.8rem] transition-all duration-[0.25s] ease-[ease] cursor-text select-none pointer-events-none w-full flex items-center justify-start opacity-40 z-[500] left-3.5 top-[10px];
+  @apply absolute text-[0.8rem] transition-all duration-[0.25s] ease-[ease] cursor-text select-none pointer-events-none w-full flex items-center justify-start !opacity-40 z-[500] left-3.5 top-[10px];
 }
 
 .select__label--hidden {
@@ -594,7 +594,7 @@ onMounted(() => {
 
 .select__label--hidden.select__label--placeholder,
 .select__label--label {
-  @apply opacity-100 visible pointer-events-auto translate-x-[-3%] -translate-y-7 text-xs mt-0;
+  @apply visible pointer-events-auto translate-x-[-3%] -translate-y-7 text-xs mt-0;
 }
 
 .select__loading {
