@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!viaDirective" class="tooltip-content" ref="contentRef" @mousenter="!notHover && handlerMouseEnter()"
+  <div v-if="!viaDirective" class="tooltip-content" ref="contentRef" @mouseenter="!notHover && handlerMouseEnter()"
     @mouseleave="!notHover && handleMouseLeave()">
     <Transition name="tooltip">
       <div v-if="activeTooltip" class="tooltip component--primary" ref="tooltipRef" :class="[
@@ -15,7 +15,7 @@
         { borderThick: borderThick },
         { loading: loading },
         position
-      ]" @mousenter="interactivity && handleMouseEnterTooltip()"
+      ]" @mouseenter="interactivity && handleMouseEnterTooltip()"
         @mouseleave="interactivity && handleMouseLeaveTooltip()">
         <slot name="tooltip" />
         <div v-if="loading" class="tooltip__loading" />
@@ -37,7 +37,7 @@
       { borderThick: borderThick },
       { loading: loading },
       position
-    ]" @mousenter="interactivity && handleMouseEnterTooltip()" @mouseleave="interactivity && handleMouseLeaveTooltip()">
+    ]" @mouseenter="interactivity && handleMouseEnterTooltip()" @mouseleave="interactivity && handleMouseLeaveTooltip()">
       <slot name="tooltip" />
       <div v-if="loading" class="tooltip__loading" />
     </div>
@@ -148,7 +148,7 @@ watch(() => props.modelValue, (val) => {
 onMounted(() => {
   if (props.viaDirective) {
     contentRef.value = props.focusedElement
-    props.focusedElement.addEventListener('mousenter', handleMouseEnterTooltip)
+    props.focusedElement.addEventListener('mouseenter', handleMouseEnterTooltip)
     props.focusedElement.addEventListener('mouseleave', handleMouseLeaveTooltip)
   }
 
@@ -172,7 +172,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('mousedown', handleMouseDownNotHover)
 
   if (props.viaDirective) {
-    props.focusedElement.removeEventListener('mousenter', handleMouseEnterTooltip)
+    props.focusedElement.removeEventListener('mouseenter', handleMouseEnterTooltip)
     props.focusedElement.removeEventListener('mouseleave', handleMouseLeaveTooltip)
   }
 })

@@ -1,10 +1,11 @@
 <template>
   <div class="flex flex-col items-center justify-between gap-5">
+    
     <Globe />
     <AnimatedBeamExemple />
     <div
       class="relative flex flex-col w-full max-w-[600px] items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-xl">
-
+      <i class="p-5 rounded-lg i-streamline-emojis-horse"></i>
       <span class="text-xl text-left font-bold w-full mb-4">Avatar</span>
       <div class="flex  gap-5">
         <Avatar icon="i-ic-check" />
@@ -30,22 +31,22 @@
       <div class="flex gap-5 w-full items-start">
         <div class="flex flex-col gap-5 w-full  items-start">
           <Input label="Name" v-model="value" placeholder="Simple" />
-          <Input v-model="value" label-placeholder="Label placeholder" />
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Icon" />
+          <Input v-model="value" label="Label placeholder" />
+          <Input v-model="value" icon="i-bx-user" label="Icon" />
           <Input icon="i-bx-lock-open-alt" type="password" icon-after v-model="value" placeholder="Icon after" />
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Loading" loading />
+          <Input v-model="value" icon="i-bx-user" label="Loading" loading />
           <div class="mt-8 flex gap-2 items-center">Simple color picker <Input v-model="color" type="color"
               color-picker />
           </div>
         </div>
         <div class="flex flex-col gap-5 w-full  items-start">
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Success" state="success"
+          <Input v-model="value" icon="i-bx-user" label="Success" state="success"
             hint="Renseigner votre nom" />
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Danger" state="danger"
+          <Input v-model="value" icon="i-bx-user" label="Danger" state="danger"
             hint="Renseigner votre nom" />
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Warn" state="warn" hint="Renseigner votre nom" />
-          <Input v-model="value" icon="i-bx-user" label-placeholder="Progress" :progress="10" />
-          <Input v-model="color" label-placeholder="Color" type="color" />
+          <Input v-model="value" icon="i-bx-user" label="Warn" state="warn" hint="Renseigner votre nom" />
+          <Input v-model="value" icon="i-bx-user" label="Progress" :progress="10" />
+          <Input v-model="color" label="Color" type="color" />
         </div>
       </div>
 
