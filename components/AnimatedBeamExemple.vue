@@ -1,25 +1,112 @@
 <template>
- <div
-      class="relative flex w-full max-w-[500px] items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-xl"
-      ref="lolRef" @click="animatedBeam.animateGradient()">
-      
-      <div class="flex h-full w-full flex-col items-stretch justify-between gap-10">
-        <div class="flex flex-row justify-between">
-          <div ref="circleRef1"
-            class="z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]">
-          </div>
-          <div ref="circleRef2"
-            class="z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]">
-          </div>
+  <div
+    ref="containerRef"
+    class="relative flex h-[300px] w-full items-center justify-center overflow-hidden rounded-lg bg-background "
+  >
+    <div
+      class="flex size-full max-h-[200px] max-w-lg flex-col items-stretch justify-between gap-10"
+    >
+      <div class="flex flex-row items-center justify-between">
+        <div
+          ref="div1Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)] dark:text-black"
+        >
+          <i class="i-devicon-google" />
+        </div>
+        <div
+          ref="div5Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]"
+        >
+          <i class="i-devicon-angular" />
         </div>
       </div>
-      <AnimatedBeam ref="animatedBeam" :duration="3" :container-ref="lolRef" :fromRef="circleRef1" :toRef="circleRef2" />
+      <div class="flex flex-row items-center justify-between">
+        <div
+          ref="div2Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)] dark:text-black"
+        >
+          <i class="i-devicon-notion" />
+        </div>
+        <div
+          ref="div4Ref"
+          class="z-10 flex size-16 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]"
+        >
+          <i class="i-devicon-figma" />
+        </div>
+        <div
+          ref="div6Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]"
+        >
+          <i class="i-devicon-denojs" />
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-between">
+        <div
+          ref="div3Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)] dark:text-black"
+        >
+          <i class="i-devicon-elixir" />
+        </div>
+        <div
+          ref="div7Ref"
+          class="z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]"
+        >
+          <i class="i-devicon-jeet" />
+        </div>
+      </div>
     </div>
+
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div1Ref"
+      :to-ref="div4Ref"
+      :curvature="-75"
+      :end-y-offset="-10"
+    />
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div2Ref"
+      :to-ref="div4Ref"
+    />
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div3Ref"
+      :to-ref="div4Ref"
+      :curvature="75"
+      :end-y-offset="10"
+    />
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div5Ref"
+      :to-ref="div4Ref"
+      :curvature="-75"
+      :end-y-offset="-10"
+      :reverse="true"
+    />
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div6Ref"
+      :to-ref="div4Ref"
+      :reverse="true"
+    />
+    <AnimatedBeam
+      :container-ref="containerRef"
+      :from-ref="div7Ref"
+      :to-ref="div4Ref"
+      :curvature="75"
+      :end-y-offset="10"
+      :reverse="true"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-const lolRef = ref();
-const circleRef1 = ref();
-const circleRef2 = ref();
-const animatedBeam = ref();
+const containerRef = ref(null);
+const div1Ref = ref(null);
+const div2Ref = ref(null);
+const div3Ref = ref(null);
+const div4Ref = ref(null);
+const div5Ref = ref(null);
+const div6Ref = ref(null);
+const div7Ref = ref(null);
 </script>

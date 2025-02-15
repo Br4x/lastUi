@@ -2,10 +2,11 @@
   <div class="flex flex-col items-center justify-between gap-5">
     
     <Globe />
-    <AnimatedBeamExemple />
+    
     <div
       class="relative flex flex-col w-full max-w-[600px] items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-xl">
-      <i class="p-5 rounded-lg i-streamline-emojis-horse"></i>
+      <span class="text-xl text-left font-bold w-full">Animated Beam</span>
+      <AnimatedBeamExemple />
       <span class="text-xl text-left font-bold w-full mb-4">Avatar</span>
       <div class="flex  gap-5">
         <Avatar icon="i-ic-check" />
