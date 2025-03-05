@@ -22,7 +22,7 @@
       'bg-gray-100 text-gray-500 focus:(bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200)': !state,
       'bg-opacity-50 cursor-wait': loading,
       'primary': state == 'primary'
-    }, inputClass]" :value="modelValue" v-bind="attrs" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
+    }, inputClass]" :value="modelValue" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
         @input="$emit('update:model-value', $event.target.value)" />
 
       <label v-if="(label || attrs.placeholder || labelPlaceholder) && !colorPicker" :for="getId" :class="['input__label',
