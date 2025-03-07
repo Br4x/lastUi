@@ -16,6 +16,7 @@ const props = defineProps({
   width: String,
   routerClose: Boolean,
   buttons: Object,
+  contentClass: String
 })
 
 const emit = defineEmits(['update:model-value', 'close', 'confirm'])
@@ -103,7 +104,7 @@ function closeDialog(evt: any) {
             <h4 class="font-semibold">{{ title }}</h4>
           </slot>
         </header>
-        <div class="dialog__content" :class="{ notFooter: !$slots.footer }">
+        <div class="dialog__content" :class="[{ notFooter: !$slots.footer }, contentClass]">
           <slot />
         </div>
         <footer v-if="$slots.footer" class="dialog__footer">
