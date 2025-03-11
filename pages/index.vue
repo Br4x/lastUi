@@ -332,6 +332,15 @@
           </template>
         </Table>
       </div>
+      <span class="text-xl text-left font-bold w-full my-4">3D Viewer</span>
+      <div class="flex gap-5 w-full items-start">
+        <ThreeViewer modelPath="/model/Sting.fbx" />
+      </div>
+
+      <span class="text-xl text-left font-bold w-full my-4">Props Generator</span>
+      <div class="flex gap-5 w-full items-start">
+        <Props />
+      </div>
       <span class="text-xl text-left font-bold w-full my-4">Upload Card</span>
       <div class="flex gap-5 w-full items-start">
         <UploadCard title="Test 1" description="jsdqh jkqsdhjkq sdhqsdkjhqdskjh qds hkjqdshqskd" />
