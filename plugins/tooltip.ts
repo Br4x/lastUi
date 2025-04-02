@@ -4,22 +4,37 @@ import { h, render } from 'vue'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('tip', {
     mounted(el, binding) {
-      if (!binding.value) return; // Ne rien faire si aucune valeur n'est passée
+      if (!binding.value) return;
 
-      // Créer le composant Tooltip
-      const tooltipElement = h(
+      // Stocker l'instance de composant
+      const tooltipInstance = h(
         Tooltip,
         {
           viaDirective: true,
           focusedElement: el
         },
         {
-          tooltip: () => binding.value, // Passer la valeur de la directive comme prop
+          tooltip: () => binding.value,
         }
       );
 
-      // Rendu du Tooltip dans le conteneur cloné
-      render(tooltipElement, document.body);
+      // Rendre le tooltip
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      
+      // Rendre le composant et stocker la référence
+      const vnode = render(tooltipInstance, container);
+      
+      // Stocker la référence sur l'élément pour pouvoir la nettoyer plus tard
+      el._tooltip_container = container;
+      el._tooltip_vnode = vnode;
     },
+    unmounted(el) {
+      // Nettoyer lors du démontage
+      if (el._tooltip_container) {
+        render(null, el._tooltip_container);
+        el._tooltip_container.remove();
+      }
+    }
   });
 });
