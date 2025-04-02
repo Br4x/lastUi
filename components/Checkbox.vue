@@ -11,7 +11,7 @@
         <i :class="icon" />
       </div>
     </div>
-    <label class="checkbox-label" :for="_uid" :class="{ lineThrough: lineThrough }">
+    <label v-if="label" class="checkbox-label" :for="_uid" :class="{ lineThrough: lineThrough }">
       {{ label }}
     </label>
   </div>
