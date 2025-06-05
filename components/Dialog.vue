@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDraggable } from '@vueuse/core'
+// import { useDraggable } from '@vueuse/core' // On n'utilise plus useDraggable
 
 const props = defineProps({
   title: String,
@@ -32,27 +32,80 @@ const originalContentHeight = ref('')
 
 // Pour le draggable
 const dragHandleRef = ref<HTMLElement | null>(null)
-
 const isDragging = ref(false)
-const dragData = ref<{ x: number; y: number }>({ x: 0, y: 0 })
 
-watchEffect(() => {
-  if (dialogEl.value && dragHandleRef.value) {
-    const { x, y, style, isDragging: dragging } = useDraggable(dialogEl, {
-      handle: dragHandleRef,
-      initialValue: dragData.value
-    })
+// Variables pour le drag manuel
+const dragData = ref({ x: 0, y: 0 })
+const dragStartPos = ref({ x: 0, y: 0 })
+const hasBeenDragged = ref(false)
 
-    watch([x, y], () => {
-      dragData.value = { x: x.value, y: y.value }
-    })
+// Gestion manuelle du drag
+const startDrag = (e: MouseEvent) => {
+  // Désactiver le drag si la dialog est minimisée
+  if (isMinimized.value) return
+  if (!dragHandleRef.value?.contains(e.target as Node)) return
+  
+  isDragging.value = true
+  hasBeenDragged.value = true
+  
+  dragStartPos.value = {
+    x: e.clientX - dragData.value.x,
+    y: e.clientY - dragData.value.y
+  }
+  
+  document.addEventListener('mousemove', onDrag)
+  document.addEventListener('mouseup', stopDrag)
+  
+  // Changer immédiatement le positionnement pour éviter le saut
+  if (dialogEl.value) {
+    const rect = dialogEl.value.getBoundingClientRect()
+    const centerX = window.innerWidth / 2
+    const centerY = window.innerHeight / 2
+    
+    dialogEl.value.style.position = 'fixed'
+    dialogEl.value.style.left = `${centerX - rect.width / 2 + dragData.value.x}px`
+    dialogEl.value.style.top = `${centerY - rect.height / 2 + dragData.value.y}px`
+    dialogEl.value.style.margin = '0'
+    dialogEl.value.style.transform = 'none'
+  }
+}
 
-    watch(dragging, (newVal) => {
-      isDragging.value = newVal
-    })
+const onDrag = (e: MouseEvent) => {
+  if (!isDragging.value || !dialogEl.value) return
+  
+  dragData.value = {
+    x: e.clientX - dragStartPos.value.x,
+    y: e.clientY - dragStartPos.value.y
+  }
+  
+  const rect = dialogEl.value.getBoundingClientRect()
+  const centerX = window.innerWidth / 2
+  const centerY = window.innerHeight / 2
+  
+  dialogEl.value.style.left = `${centerX - rect.width / 2 + dragData.value.x}px`
+  dialogEl.value.style.top = `${centerY - rect.height / 2 + dragData.value.y}px`
+}
+
+const stopDrag = () => {
+  isDragging.value = false
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
+}
+
+// Écouter les événements de drag sur le header
+watch(dragHandleRef, (newVal) => {
+  if (newVal) {
+    newVal.addEventListener('mousedown', startDrag)
   }
 })
 
+onBeforeUnmount(() => {
+  if (dragHandleRef.value) {
+    dragHandleRef.value.removeEventListener('mousedown', startDrag)
+  }
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
+})
 
 const toggleMinimize = () => {
   if (!isMinimized.value) {
@@ -68,16 +121,22 @@ const toggleMinimize = () => {
       const minimizedModals = document.querySelectorAll('.dialog--minimized')
 
       // Déterminer la position en fonction du nombre de modals déjà minimisées
-      const spacing = 10
-      const bottomOffset = 10 + minimizedModals.length * 50 // Décalage vertical
+      const bottomOffset = 10 + minimizedModals.length * 50
 
+      // Réinitialiser la transformation avant de minimiser
+      dialogEl.value.style.transform = ''
       dialogEl.value.style.position = 'fixed'
       dialogEl.value.style.bottom = `${bottomOffset}px`
       dialogEl.value.style.right = '10px'
       dialogEl.value.style.left = 'auto'
       dialogEl.value.style.top = 'auto'
+      dialogEl.value.style.margin = '0'
       dialogEl.value.style.width = '250px'
       dialogEl.value.style.height = '40px'
+
+      // Réinitialiser les valeurs de position du draggable
+      dragData.value = { x: 0, y: 0 }
+      hasBeenDragged.value = false
 
       isMinimized.value = true
     }
@@ -86,7 +145,26 @@ const toggleMinimize = () => {
 
     nextTick(() => {
       if (dialogEl.value) {
-        dialogEl.value.style.position = ''
+        // Si la dialog avait été déplacée, maintenir le positionnement fixe
+        if (hasBeenDragged.value && (dragData.value.x !== 0 || dragData.value.y !== 0)) {
+          const rect = dialogEl.value.getBoundingClientRect()
+          const centerX = window.innerWidth / 2
+          const centerY = window.innerHeight / 2
+          
+          dialogEl.value.style.position = 'fixed'
+          dialogEl.value.style.left = `${centerX - rect.width / 2 + dragData.value.x}px`
+          dialogEl.value.style.top = `${centerY - rect.height / 2 + dragData.value.y}px`
+          dialogEl.value.style.margin = '0'
+          dialogEl.value.style.transform = 'none'
+        } else {
+          // Sinon, revenir au centrage normal
+          dialogEl.value.style.position = ''
+          dialogEl.value.style.margin = ''
+          dialogEl.value.style.left = ''
+          dialogEl.value.style.top = ''
+          dialogEl.value.style.transform = ''
+        }
+        
         dialogEl.value.style.bottom = ''
         dialogEl.value.style.right = ''
         dialogEl.value.style.width = ''
@@ -100,7 +178,6 @@ const toggleMinimize = () => {
     })
   }
 }
-
 
 const esc = (evt: KeyboardEvent) => {
   if (evt.key === 'Escape' && !props.preventClose) {
@@ -134,6 +211,17 @@ watch(() => props.modelValue, (val: boolean) => {
       document.body.style.overflow = ''
     }
     window.removeEventListener('keydown', esc)
+    // Réinitialiser la position quand on ferme
+    if (dialogEl.value) {
+      dragData.value = { x: 0, y: 0 }
+      hasBeenDragged.value = false
+      // Restaurer le style par défaut
+      dialogEl.value.style.position = ''
+      dialogEl.value.style.margin = ''
+      dialogEl.value.style.left = ''
+      dialogEl.value.style.top = ''
+      dialogEl.value.style.transform = ''
+    }
   }
 })
 
@@ -227,26 +315,43 @@ onBeforeUnmount(() => {
 .dialog-content {
   @apply fixed z-99000 flex items-start justify-center w-full h-full max-h-screen overflow-y-auto overflow-x-hidden py-20 left-0 top-0;
   pointer-events: none;
-  /* Permet les clics à travers le fond */
 }
 
 .dialog {
   @apply !bg-white shadow-lg text-[rgba(var(--text), 1)] relative min-w-[400px] rounded-[20px] transition-all duration-[0.25s] ease-[ease] shadow-[0_5px_30px_0_rgba(0, 0, 0, var(--shadow-opacity))] m-auto;
   position: relative;
   pointer-events: auto;
-  /* Restaure les interactions pour la boîte de dialogue */
 }
 
 /* Style pour la dialogue draggable */
 .dialog.is-dragging {
   @apply cursor-grabbing;
-  transition: none;
+  transition: none !important;
   user-select: none;
 }
 
+/* Améliorer le style du header pour le drag */
+.dialog__header {
+  @apply flex items-center justify-between px-4 py-2.5;
+  cursor: grab;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+}
+
+.dialog__header:active {
+  cursor: grabbing;
+}
+
+/* Désactiver le cursor grab quand minimisé */
+.dialog--minimized .dialog__header {
+  cursor: default;
+}
+
+.dialog--minimized .dialog__header:active {
+  cursor: default;
+}
+
 /* Dialog minimisé */
-
-
 .dialog--minimized .dialog__header {
   @apply mb-0;
   border-bottom-left-radius: 20px;
@@ -256,6 +361,7 @@ onBeforeUnmount(() => {
 .dialog--minimized {
   @apply min-h-10 min-w-[250px] max-w-[250px] max-h-10 overflow-hidden flex items-center justify-between;
 }
+
 .dialog--minimized .dialog__content,
 .dialog--minimized .dialog__footer {
   @apply hidden;
@@ -334,18 +440,14 @@ onBeforeUnmount(() => {
   @apply pt-0 pb-2.5 px-4;
 }
 
-.dialog__header {
-  @apply flex items-center justify-between px-4 py-2.5 cursor-move;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-}
-
 .header-drag-area {
   @apply flex-grow;
+  pointer-events: none; /* Permet au drag de fonctionner même sur le contenu */
 }
 
 .dialog-controls {
   @apply flex items-center gap-1;
+  pointer-events: auto; /* Restaure les interactions pour les boutons */
 }
 
 .dialog-control {
@@ -380,7 +482,6 @@ onBeforeUnmount(() => {
     transform: rotate(1turn)
   }
 }
-
 
 @keyframes rebound {
   0% {

@@ -1,7 +1,6 @@
 <template>
   <div
     class="shadow-lg relative w-full h-full flex flex-col items-center justify-center bg-gray-100 rounded-lg p-4  min-w-50 min-h-50 max-w-50 max-h-50">
-    <!-- État initial: zone de saisie du prompt -->
     <div v-if="['loading', 'initial'].includes(state)" class="w-full space-y-4 flex flex-col items-center justify-center">
       <textarea v-model="prompt"
         class="w-full p-3 border border-gray-300 rounded-lg outline-none bg-transparent"
@@ -10,7 +9,6 @@
       <Button :label="state === 'initial' ? 'Go' : 'Génération en cours...'" @click="generateImages" :loading="state === 'loading'" />
     </div>
 
-    <!-- État d'affichage des suggestions -->
     <div v-else-if="state === 'suggestions'" class="w-full flex flex-col gap-2 items-center justify-center">
       <h3 class="text-xs font-medium ">Sélectionnez une image</h3>
       <div class="grid grid-cols-2 gap-2 w-full">
@@ -22,7 +20,6 @@
       </div>
     </div>
 
-    <!-- État d'affichage de l'image sélectionnée -->
     <div v-else-if="state === 'selected'" class="w-full h-full">
       <div v-if="viewMode === '2D'" class="w-full h-full">
         <img :src="selectedImage.url" class="w-full h-full object-contain" />
@@ -37,7 +34,6 @@
       </div>
     </div>
 
-    <!-- Sélecteur de mode 2D/3D (visible uniquement si une image est sélectionnée) -->
     <div v-if="state === 'selected'" class="absolute top-4 right-4 flex button-group bg-white overflow-hidden rounded-full">
       <Button label="2D" @click="viewMode = '2D'" :transparent="viewMode !== '2D'" />
       <Button label="3D" @click="viewMode = '3D'" :transparent="viewMode !== '3D'" />
