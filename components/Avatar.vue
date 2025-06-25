@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="vs-avatar-content bg-gray-100 text-gray-500 z-1 w-11 h-11 relative transition-all duration-[0.25s] ease-[ease] select-none rounded-[35%]"
+      class="avatar-content bg-gray-100 text-gray-500 z-1 w-11 h-11 relative transition-all duration-[0.25s] ease-[ease] select-none rounded-[35%]"
       :class="{
       'history after:(content-[\'\'] absolute w-full h-full bg-[#FFE53B] -z-1 rounded-[inherit] left-0 top-0)': history,
       'after:(bg-gradient-to-tr from-[#FFE53B] via-[#df376b] to-[#c52d91])': historyGradient,
@@ -12,15 +12,15 @@
 
     }" :style="{ width: `${size}px`, height: `${size}px` }" v-if="!isHidden">
       <div
-        class="vs-avatar text-gray-500 overflow-hidden flex items-center justify-center  w-full h-full transition-all duration-[0.25s] ease-[ease] shadow-[inset_0px_0px_0px_0px_rgba(0, 0, 0, 0.05)] rounded-[inherit]"
-        :class="{ [`vs-avatar--letter--${textLength}`]: textLength > 2, ' border-white m-0.5 border-2 border-solid': history }">
+        class="avatar text-gray-500 overflow-hidden flex items-center justify-center  w-full h-full transition-all duration-[0.25s] ease-[ease] shadow-[inset_0px_0px_0px_0px_rgba(0, 0, 0, 0.05)] rounded-[inherit]"
+        :class="{ [`avatar--letter--${textLength}`]: textLength > 2, ' border-white m-0.5 border-2 border-solid': history }">
         <template v-if="text">{{ shortText }}</template>
         <i v-if="icon" :class="[props.icon, 'bg-gray-500']" />
         <slot />
       </div>
 
       <div v-if="loading"
-        class="vs-avatar__loading absolute w-full z-100 h-full flex items-center justify-center rounded-inherit left-0 top-0 bg-black bg-opacity-50">
+        class="avatar__loading absolute w-full z-100 h-full flex items-center justify-center rounded-inherit left-0 top-0 bg-black bg-opacity-50">
         <div
           class="h-3/5 w-3/5 flex items-center justify-center relative rounded-1/2 after:(box-border absolute w-full h-full animate-[rotateInputLoading_0.8s_ease_infinite] content-[''] rounded-inherit border-t-transparent border-x-transparent border-2 border-solid border-white top-0) before:(box-border absolute w-full h-full animate-[rotateInputLoading_0.8s_linear_infinite] opacity-20 content-[''] rounded-inherit border-t-transparent border-x-transparent border-2 border-dashed border-white border-solid top-0)" />
       </div>
@@ -104,61 +104,61 @@ const isLatest = computed(() => {
 
 
 <style>
-.vs-avatar-content.history .vs-avatar {
+.avatar-content.history .avatar {
   width: calc(100% - 4px);
   height: calc(100% - 4px);
   margin: 2px;
 }
 
-.vs-avatar-content.vs-change-color-badge .vs-avatar__badge .vs-avatar__points__point {
+.avatar-content.change-color-badge .avatar__badge .avatar__points__point {
   background: -color("background");
 }
 
-.vs-avatar-content.vs-change-color:hover .vs-avatar {
+.avatar-content.change-color:hover .avatar {
   @apply shadow-[inset_0px_0px_40px_0px_rgba(0, 0, 0, 0.1)];
 }
 
-.vs-avatar-content:hover .vs-avatar {
+.avatar-content:hover .avatar {
   @apply shadow-[inset_0px_0px_40px_0px_rgba(0, 0, 0, 0.04)];
 }
 
-.vs-avatar-content:hover img {
+.avatar-content:hover img {
   @apply scale-110;
 }
 
-.vs-avatar-content.vs-component--is-color .vs-avatar {
+.avatar-content.component--is-color .avatar {
   @apply text-[-color("background")];
 }
 
-.vs-avatar-content.vs-component--is-color .vs-avatar__points .vs-avatar__points__point {
+.avatar-content.component--is-color .avatar__points .avatar__points__point {
   background: -color("background");
 }
 
-.vs-avatar i {
+.avatar i {
   @apply text-[1.4rem];
 }
 
-.vs-avatar img {
+.avatar img {
   @apply w-full h-auto block transition-all duration-[0.25s] ease-[ease] rounded-[inherit];
 }
 
-.vs-avatar--letter--3 {
+.avatar--letter--3 {
   @apply text-[0.9rem];
 }
 
-.vs-avatar--letter--4 {
+.avatar--letter--4 {
   @apply text-[0.8rem];
 }
 
-.vs-avatar--letter--5 {
+.avatar--letter--5 {
   @apply text-[0.7rem];
 }
 
-.vs-avatar--letter--6 {
+.avatar--letter--6 {
   @apply text-[0.6rem];
 }
 
-.vs-avatar__loading {
+.avatar__loading {
   position: absolute;
   width: 100%;
   top: 0;
@@ -169,8 +169,8 @@ const isLatest = computed(() => {
   border-radius: inherit;
 }
 
-.vs-avatar__loading__animate:after,
-.vs-avatar__loading__animate:before {
+.avatar__loading__animate:after,
+.avatar__loading__animate:before {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   position: absolute;
@@ -180,7 +180,7 @@ const isLatest = computed(() => {
   content: "";
 }
 
-.vs-avatar__loading__animate:after {
+.avatar__loading__animate:after {
   border-radius: inherit;
   border: 2px solid transparent;
   border-bottom-color: #fff;

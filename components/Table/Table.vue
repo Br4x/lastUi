@@ -42,7 +42,7 @@
     </div>
     <footer  class="table__footer flex flex-col gap-2 items-center justify-center">
       <div class="flex gap-2"><slot name="footer" /></div>
-      <Pagination v-if="items.length > pageSize" v-model="currentPage" :length="Math.ceil(items.length / pageSize)" />
+      <Pagination v-if="filteredItems.length > pageSize" v-model="currentPage" :length="Math.ceil(filteredItems.length / pageSize)" />
     </footer>
   </div>
 </template>
