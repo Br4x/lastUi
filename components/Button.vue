@@ -84,7 +84,7 @@ const handleClick = (evt: Event) => {
   @apply text-[#1e1e1e];
 }
 .button__content {
-  @apply px-2 py-2 w-full flex items-center justify-center gap-2;
+  @apply px-2 py-2 w-full flex items-center justify-center gap-0.5;
 }
 .button--active-disabled {
   @apply pointer-events-none opacity-60;
