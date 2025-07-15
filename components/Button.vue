@@ -75,7 +75,7 @@ const handleClick = (evt: Event) => {
 
 <style scoped>
 .button {
-  @apply text-white outline-none mt-1 mr-1 mb-1 ml-1 rounded-3 transition-all duration-[0.25s] ease-[ease] relative select-none z-[1] overflow-hidden flex items-center justify-center text-[0.8rem] box-border p-0 border-0 disabled:pointer-events-none disabled:opacity-[0.35] bg-primary;
+  @apply text-white outline-none mt-1 mr-1 mb-1 ml-1 rounded-3 transition-all duration-[0.25s] ease-[ease] relative select-none z-[1] overflow-hidden flex items-center justify-center text-[0.8rem] box-border p-0 border-0 disabled:pointer-events-none disabled:opacity-[0.35] bg-primary flex gap-2;
 }
 .button.component-dark.button--transparent {
   @apply text-white
