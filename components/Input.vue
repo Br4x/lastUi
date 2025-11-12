@@ -23,7 +23,8 @@
       'bg-opacity-50 cursor-wait': loading,
       'primary': state == 'primary'
     }, inputClass]" :value="modelValue" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
-        @input="$emit('update:model-value', $event.target.value)" />
+        @input="$emit('update:model-value', $event.target.value)"
+        @change="$emit('change', $event)" />
 
       <label v-if="(label || attrs.placeholder || labelPlaceholder) && !colorPicker" :for="getId" :class="['input__label',
     {
@@ -113,7 +114,7 @@ const props = defineProps({
   colorPicker: Boolean
 })
 
-const emit = defineEmits(['update:model-value', 'click-icon'])
+const emit = defineEmits(['update:model-value', 'click-icon', 'change'])
 const attrs = useAttrs()
 const colorInput = ref()
 const isVisiblePassword = ref(false)
