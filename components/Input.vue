@@ -8,7 +8,7 @@
     <div
       :class="['input-content flex items-center justify-start relative rounded-xl']">
 
-      <input v-if="!colorPicker" :disabled="loading || disabled" :class="['input text-gray-800 placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
+      <input v-if="!colorPicker" :disabled="loading || disabled" :directory="directory" :class="['input text-gray-800 placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
     {
       'input--has-icon': !!icon || attrs.type === 'color',
       'input--has-icon--after': !!iconAfter,
@@ -109,6 +109,7 @@ const props = defineProps({
   icon: String,
   hint: String,
   inputClass: String,
+  directory:Boolean,
   colorPicker: Boolean
 })
 

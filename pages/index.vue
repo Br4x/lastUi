@@ -63,13 +63,11 @@
       <span class="text-xl text-left font-bold w-full my-4">Buttons</span>
       <div class="flex gap-5 w-full items-start">
         <div class="flex flex-col gap-5 w-full  items-start">
-          <Button :active="active == 0" @click="active = 0">
-            Active
-          </Button>
+          <Button label="Actived" :active="active == 0" @click="active = 0"/>
+            
           <div class="button-group flex items-center justify-center">
-            <Button :active="active == 1" @click="active = 1">
-              Default
-            </Button>
+            <Button label="Default" :active="active == 1" @click="active = 1" />
+              
             <Button disabled>Disabled</Button>
             <Button loading>loading</Button>
           </div>
