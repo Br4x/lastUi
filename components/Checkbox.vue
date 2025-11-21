@@ -47,23 +47,14 @@ onMounted(() => {
 })
 
 const isChecked = computed(() => {
-  let isChecked = false
-
   if (props.modelValue) {
     if (typeof props.modelValue == 'boolean') {
-      isChecked = props.modelValue
+      return props.modelValue  // ✅ Retourne directement
     } else if (typeof props.modelValue == 'object' && props.modelValue !== null) {
       const array = props.modelValue
       const containValue = array.indexOf(props.val) === -1 &&
         JSON.stringify(array).indexOf(JSON.stringify(props.val)) === -1
-      let indexVal = 0
-
-      array.forEach((item: any, index: number) => {
-        if (JSON.stringify(item) == JSON.stringify(props.val)) {
-          indexVal = index
-        }
-      })
-
+      
       if (containValue) {
         return false
       } else {
