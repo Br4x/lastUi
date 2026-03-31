@@ -5,38 +5,37 @@
     'w-full': block,
     'square': square
   }]">
-    <div
-      :class="['input-content flex items-center justify-start relative rounded-xl']">
+    <div :class="['input-content flex items-center justify-start relative rounded-xl']">
 
-      <input v-if="!colorPicker" :disabled="loading || disabled" :directory="directory" :webkitdirectory="directory" :class="['input text-gray-800 placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
-    {
-      'input--has-icon': !!icon || attrs.type === 'color',
-      'input--has-icon--after': !!iconAfter,
-      '!bg-transparent': transparent,
-      'w-full': block,
-      'cursor-not-allowed': disabled,
-      'text-white': textWhite,
-      'bg-green-200 text-green-500 focus:(bg-gradient-to-r from-green-200 via-green-100 to-green-200)': state == 'success',
-      'bg-red-200 text-red-500 focus:(bg-gradient-to-r from-red-200 via-red-100 to-red-200)': state == 'danger',
-      'bg-yellow-200 text-yellow-500 focus:(bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200)': state == 'warn',
-      'bg-gray-100 text-gray-500 focus:(bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200)': !state,
-      'bg-opacity-50 cursor-wait': loading,
-      'primary': state == 'primary'
-    }, inputClass]" :value="modelValue" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
-        @input="$emit('update:model-value', $event.target.value)"
-        @change="$emit('change', $event)" />
+      <input v-if="!colorPicker" :disabled="loading || disabled" :directory="directory" :webkitdirectory="directory"
+        :class="['input text-gray-800 placeholder-transparent  transition-all duration-[0.25s] ease-[ease] w-50 pl-3 pr-[13px] py-[7px] rounded-[inherit] border-2 border-solid border-transparent focus:pl-[15px] min-h-10 outline-none box-border list-none',
+          {
+            'input--has-icon': !!icon || attrs.type === 'color',
+            'input--has-icon--after': !!iconAfter,
+            '!bg-transparent': transparent,
+            'w-full': block,
+            'cursor-not-allowed': disabled,
+            'text-white': textWhite,
+            'bg-green-200 text-green-500 focus:(bg-gradient-to-r from-green-200 via-green-100 to-green-200)': state == 'success',
+            'bg-red-200 text-red-500 focus:(bg-gradient-to-r from-red-200 via-red-100 to-red-200)': state == 'danger',
+            'bg-yellow-200 text-yellow-500 focus:(bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200)': state == 'warn',
+            'bg-gray-100 text-gray-500 focus:(bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200)': !state,
+            'bg-opacity-50 cursor-wait': loading,
+            'primary': state == 'primary'
+          }, inputClass]" :value="modelValue" :type="attrs.type === 'color' ? 'text' : attrs.type" :id="getId"
+        @input="$emit('update:model-value', $event.target.value)" @change="$emit('change', $event)" />
 
       <label v-if="(label || attrs.placeholder || labelPlaceholder) && !colorPicker" :for="getId" :class="['input__label',
-    {
-      'input__label--placeholder': labelPlaceholder,
-      '': modelValue !== '' || attrs.type == 'date' || attrs.type == 'time',
-      'input__label--label opacity-100 visible pointer-events-auto -translate-x-0.5 translate-y-[-77%] text-xs': label,
-      'text-green-500': state == 'success',
-      'text-red-500': state == 'danger',
-      'text-yellow-500': state == 'warn',
-      'text-primary': state == 'primary',
-    }
-  ]">
+        {
+          'input__label--placeholder': labelPlaceholder,
+          '': modelValue !== '' || attrs.type == 'date' || attrs.type == 'time',
+          'input__label--label opacity-100 visible pointer-events-auto -translate-x-0.5 translate-y-[-77%] text-xs': label,
+          'text-green-500': state == 'success',
+          'text-red-500': state == 'danger',
+          'text-yellow-500': state == 'warn',
+          'text-primary': state == 'primary',
+        }
+      ]">
         {{ label || attrs.placeholder || labelPlaceholder }}
       </label>
 
@@ -46,18 +45,20 @@
       </label>
 
       <span v-if="icon || attrs.type === 'color'" :class="[
-    'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
-    {
-      'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
-      'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
-      'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
-      'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
-      'focus:bg-gray-100': !state,
-      'input__icon--after': iconAfter,
-      'input__icon--click': !!attrs['click-icon']
-    }
-  ]" @click="clickOnIcon">
-        <input ref="colorInput" :value="modelValue" @input="$emit('update:model-value', $event.target.value)" class="[&::-webkit-color-swatch]:border-none cursor-pointer [&::-webkit-color-swatch]:shadow-lg [&::-webkit-color-swatch]:rounded-full [&::-webkit-color-swatch-wrapper]:p-px w-8 h-8 p-px " v-if="attrs.type === 'color'" type="color">
+        'input__icon overflow-hidden absolute w-9 h-9 flex items-center justify-center shadow-[12px_0_10px_-10px] transition-all duration-[0.25s] ease-[ease] rounded-[inherit] left-0 right-auto',
+        {
+          'text-green-500 shadow-[-15px_10px_10px_-10px] shadow-green-500 focus:bg-green-100': state == 'success',
+          'text-red-500 shadow-[-15px_10px_10px_-10px] shadow-red-500 focus:bg-red-100': state == 'danger',
+          'text-yellow-500 shadow-[-15px_10px_10px_-10px] shadow-yellow-500 focus:bg-yellow-100': state == 'warn',
+          'text-primary shadow-[-15px_10px_10px_-10px] shadow-primary focus:bg-primary-100': state == 'primary',
+          'focus:bg-gray-100': !state,
+          'input__icon--after': iconAfter,
+          'input__icon--click': !!attrs['click-icon']
+        }
+      ]" @click="clickOnIcon">
+        <input ref="colorInput" :value="modelValue" @input="$emit('update:model-value', $event.target.value)"
+          class="[&::-webkit-color-swatch]:border-none cursor-pointer [&::-webkit-color-swatch]:shadow-lg [&::-webkit-color-swatch]:rounded-full [&::-webkit-color-swatch-wrapper]:p-px w-8 h-8 p-px "
+          v-if="attrs.type === 'color'" type="color">
         <i v-else :class="icon" />
       </span>
 
@@ -78,12 +79,12 @@
     </div>
 
     <span class="input__message" v-if="hint" :class="{
-    'text-green-500': state == 'success',
-    'text-red-500': state == 'danger',
-    'text-yellow-500': state == 'warn',
-    'text-primary': state == 'primary',
-  }
-    ">
+      'text-green-500': state == 'success',
+      'text-red-500': state == 'danger',
+      'text-yellow-500': state == 'warn',
+      'text-primary': state == 'primary',
+    }
+      ">
       {{ hint }}
     </span>
   </div>
@@ -110,7 +111,7 @@ const props = defineProps({
   icon: String,
   hint: String,
   inputClass: String,
-  directory:Boolean,
+  directory: Boolean,
   colorPicker: Boolean
 })
 
@@ -352,6 +353,11 @@ function clickOnIcon(event: MouseEvent) {
   -webkit-transform: translateY(3px);
   -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.05);
 }
+
+.input-parent {
+  margin-top: 30px !important;
+}
+
 
 @keyframes rotateInputLoading {
   0% {
