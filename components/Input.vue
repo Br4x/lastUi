@@ -26,21 +26,21 @@
         @input="$emit('update:model-value', $event.target.value)" @change="$emit('change', $event)" />
 
       <label v-if="(label || attrs.placeholder || labelPlaceholder) && !colorPicker" :for="getId" :class="['input__label',
-        {
-          'input__label--placeholder': labelPlaceholder,
-          '': modelValue !== '' || attrs.type == 'date' || attrs.type == 'time',
-          'input__label--label opacity-100 visible pointer-events-auto -translate-x-0.5 translate-y-[-77%] text-xs': label,
-          'text-green-500': state == 'success',
-          'text-red-500': state == 'danger',
-          'text-yellow-500': state == 'warn',
-          'text-primary': state == 'primary',
-        }
-      ]">
+    {
+      'input__label--placeholder': labelPlaceholder,
+      'opacity-100 visible pointer-events-auto -translate-x-0.5 translate-y-[-77%] text-xs': (modelValue !== '' && modelValue !== null && modelValue !== undefined) || attrs.type == 'date' || attrs.type == 'time',
+      'input__label--label opacity-100 visible pointer-events-auto -translate-x-0.5 translate-y-[-77%] text-xs': label,
+      'text-green-500': state == 'success',
+      'text-red-500': state == 'danger',
+      'text-yellow-500': state == 'warn',
+      'text-primary': state == 'primary',
+    }
+  ]">
         {{ label || attrs.placeholder || labelPlaceholder }}
       </label>
 
-      <label v-if="attrs.placeholder" :for="getId"
-        :class="['input__label', { 'input__label--hidden opacity-0 invisible': modelValue !== '' }]">
+      <label v-if="attrs.placeholder && !modelValue && modelValue !== 0" :for="getId"
+        :class="['input__label']">
         {{ attrs.placeholder }}
       </label>
 
